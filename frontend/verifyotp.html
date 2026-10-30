@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StudyAI - Verify Email</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f5f7fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:430px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.logo-text{
+    font-size:23px;
+    font-weight:750;
+}
+
+.logo-text span{
+    color:#6366f1;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #e7e9ef;
+    border-radius:20px;
+    padding:32px;
+    box-shadow:0 15px 45px rgba(0,0,0,.06);
+    text-align:center;
+}
+
+.icon{
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    background:#eeeeff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    margin:0 auto 20px;
+}
+
+h1{
+    font-size:23px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#858a97;
+    font-size:12px;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+.email{
+    color:#6366f1;
+    font-weight:600;
+    word-break:break-all;
+}
+
+.otp-input{
+    width:100%;
+    padding:14px;
+    border:1px solid #dfe2ea;
+    border-radius:10px;
+    outline:none;
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:8px;
+}
+
+.otp-input:focus{
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px rgba(99,102,241,.08);
+}
+
+.verify-btn{
+    width:100%;
+    border:none;
+    background:#6366f1;
+    color:#fff;
+    padding:13px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    margin-top:18px;
+    transition:.2s;
+}
+
+.verify-btn:hover{
+    background:#4f46e5;
+}
+
+.verify-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.message{
+    display:none;
+    margin-bottom:15px;
+    padding:10px;
+    border-radius:8px;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.error{
+    display:block;
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.success{
+    display:block;
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.resend{
+    margin-top:18px;
+    font-size:11px;
+    color:#858a97;
+}
+
+.resend button{
+    border:none;
+    background:none;
+    color:#6366f1;
+    font-weight:600;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.resend button:disabled{
+    color:#aaa;
+    cursor:not-allowed;
+}
+
+.back{
+    display:block;
+    margin-top:20px;
+    color:#858a97;
+    font-size:11px;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#6366f1;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <img
+                src="logo.jpeg"
+                alt="StudyAI Logo">
+
+        </div>
+
+        <div class="logo-text">
+
+            Study<span>AI</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- CARD -->
+
+    <div class="card">
+
+
+        <div class="icon">
+            ✉️
+        </div>
+
+
+        <h1>
+            Verify your email
+        </h1>
+
+
+        <p class="subtitle">
+
+            We've sent a 6-digit verification code to
+
+            <br>
+
+            <span
+                class="email"
+                id="emailDisplay">
+            </span>
+
+        </p>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+
+        <!-- OTP FORM -->
+
+        <form id="verifyForm">
+
+
+            <input
+                type="text"
+                id="otp"
+                class="otp-input"
+                maxlength="6"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                placeholder="000000"
+                required>
+
+
+            <button
+                type="submit"
+                class="verify-btn"
+                id="verifyBtn">
+
+                Verify Email
+
+            </button>
+
+
+        </form>
+
+
+        <!-- RESEND -->
+
+        <div class="resend">
+
+            Didn't receive the code?
+
+            <button
+                type="button"
+                id="resendBtn">
+
+                Resend OTP
+
+            </button>
+
+        </div>
+
+
+        <!-- BACK -->
+
+        <a
+            href="register.html"
+            class="back">
+
+            ← Back to Registration
+
+        </a>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_URL =
+    "http://127.0.0.1:5000/api/auth";
+
+
+/* =====================================================
+   GET PENDING EMAIL
+===================================================== */
+
+const email =
+    sessionStorage.getItem(
+        "studyAI_pendingEmail"
+    );
+
+
+const emailDisplay =
+    document.getElementById(
+        "emailDisplay"
+    );
+
+
+const otpInput =
+    document.getElementById(
+        "otp"
+    );
+
+
+const verifyBtn =
+    document.getElementById(
+        "verifyBtn"
+    );
+
+
+const resendBtn =
+    document.getElementById(
+        "resendBtn"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+/* =====================================================
+   CHECK EMAIL
+===================================================== */
+
+if(!email){
+
+    window.location.href =
+        "register.html";
+
+}
+else{
+
+    emailDisplay.textContent =
+        email;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type
+){
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " +
+        type;
+
+}
+
+
+/* =====================================================
+   OTP INPUT
+===================================================== */
+
+otpInput.addEventListener(
+    "input",
+    function(){
+
+        this.value =
+            this.value
+            .replace(/\D/g,"")
+            .slice(0,6);
+
+    }
+);
+
+
+/* =====================================================
+   VERIFY OTP
+===================================================== */
+
+document
+    .getElementById("verifyForm")
+    .addEventListener(
+        "submit",
+        async function(event){
+
+            event.preventDefault();
+
+
+            const otp =
+                otpInput.value.trim();
+
+
+            if(
+                !/^\d{6}$/.test(otp)
+            ){
+
+                showMessage(
+                    "Please enter the 6-digit OTP.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            verifyBtn.disabled =
+                true;
+
+            verifyBtn.textContent =
+                "Verifying...";
+
+
+            try{
+
+                const response =
+                    await fetch(
+                        `${API_URL}/verify-otp`,
+                        {
+
+                            method:
+                                "POST",
+
+                            headers:{
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    email:
+                                        email,
+
+                                    otp:
+                                        otp
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                /* ================= ERROR ================= */
+
+                if(
+                    !response.ok
+                ){
+
+                    showMessage(
+                        data.message ||
+                        "Invalid OTP.",
+                        "error"
+                    );
+
+
+                    verifyBtn.disabled =
+                        false;
+
+                    verifyBtn.textContent =
+                        "Verify Email";
+
+                    return;
+
+                }
+
+
+                /* =================================================
+                   SAVE LOGIN
+                ================================================= */
+
+                localStorage.setItem(
+                    "studyAI_token",
+                    data.token
+                );
+
+
+                localStorage.setItem(
+                    "studyAI_user",
+                    JSON.stringify({
+
+                        id:
+                            data.user.id,
+
+                        name:
+                            data.user.name,
+
+                        email:
+                            data.user.email,
+
+                        role:
+                            "client"
+
+                    })
+                );
+
+
+                /* =================================================
+                   CLEAR PENDING REGISTRATION
+                ================================================= */
+
+                sessionStorage.removeItem(
+                    "studyAI_pendingEmail"
+                );
+
+                sessionStorage.removeItem(
+                    "studyAI_pendingName"
+                );
+
+
+                /* =================================================
+                   SUCCESS
+                ================================================= */
+
+                showMessage(
+                    "Email verified successfully! 🎉",
+                    "success"
+                );
+
+
+                verifyBtn.textContent =
+                    "Verified ✓";
+
+
+                setTimeout(
+                    function(){
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    },
+                    1000
+                );
+
+
+            }
+            catch(error){
+
+                console.error(
+                    "OTP Verification Error:",
+                    error
+                );
+
+
+                showMessage(
+                    "Unable to connect to StudyAI server. Make sure the backend is running.",
+                    "error"
+                );
+
+
+                verifyBtn.disabled =
+                    false;
+
+                verifyBtn.textContent =
+                    "Verify Email";
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   RESEND OTP
+===================================================== */
+
+resendBtn.addEventListener(
+    "click",
+    async function(){
+
+        if(!email){
+
+            window.location.href =
+                "register.html";
+
+            return;
+
+        }
+
+
+        resendBtn.disabled =
+            true;
+
+        resendBtn.textContent =
+            "Sending...";
+
+
+        try{
+
+            const response =
+                await fetch(
+                    `${API_URL}/resend-otp`,
+                    {
+
+                        method:
+                            "POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                email:
+                                    email
+
+                            })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            /* ================= ERROR ================= */
+
+            if(
+                !response.ok
+            ){
+
+                showMessage(
+                    data.message ||
+                    "Unable to resend OTP.",
+                    "error"
+                );
+
+
+                /*
+                   If backend says wait,
+                   don't permanently disable button.
+                */
+
+                if(
+                    response.status === 429
+                ){
+
+                    startResendCooldown(30);
+
+                }
+                else{
+
+                    resendBtn.disabled =
+                        false;
+
+                    resendBtn.textContent =
+                        "Resend OTP";
+
+                }
+
+                return;
+
+            }
+
+
+            /* ================= SUCCESS ================= */
+
+            showMessage(
+                "A new OTP has been sent to your email. 📩",
+                "success"
+            );
+
+
+            otpInput.value =
+                "";
+
+
+            startResendCooldown(30);
+
+
+        }
+        catch(error){
+
+            console.error(
+                "Resend OTP Error:",
+                error
+            );
+
+
+            showMessage(
+                "Unable to connect to StudyAI server. Make sure the backend is running.",
+                "error"
+            );
+
+
+            resendBtn.disabled =
+                false;
+
+            resendBtn.textContent =
+                "Resend OTP";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   RESEND COOLDOWN
+===================================================== */
+
+function startResendCooldown(
+    seconds
+){
+
+    resendBtn.disabled =
+        true;
+
+
+    let remaining =
+        seconds;
+
+
+    resendBtn.textContent =
+        `Resend in ${remaining}s`;
+
+
+    const timer =
+        setInterval(
+            function(){
+
+                remaining--;
+
+
+                resendBtn.textContent =
+                    `Resend in ${remaining}s`;
+
+
+                if(
+                    remaining <= 0
+                ){
+
+                    clearInterval(
+                        timer
+                    );
+
+
+                    resendBtn.disabled =
+                        false;
+
+
+                    resendBtn.textContent =
+                        "Resend OTP";
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

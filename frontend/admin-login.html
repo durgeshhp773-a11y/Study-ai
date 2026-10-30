@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>StudyAI - Admin Login</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+body{min-height:100vh;background:#f5f7fb;display:flex;align-items:center;justify-content:center;padding:20px;color:#171a2b}
+.container{width:100%;max-width:430px}.logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:25px}.logo-icon{width:48px;height:48px;border-radius:12px;overflow:hidden}.logo-icon img{width:100%;height:100%;object-fit:cover}.logo-text{font-size:23px;font-weight:750}.logo-text span{color:#6366f1}.card{background:#fff;border:1px solid #e7e9ef;border-radius:20px;padding:32px;box-shadow:0 15px 45px rgba(0,0,0,.06)}.badge{width:max-content;margin:0 auto 14px;padding:7px 11px;border-radius:20px;background:#eeedff;color:#5b5ce2;font-size:10px;font-weight:700}h1{text-align:center;font-size:23px;margin-bottom:7px}.subtitle{text-align:center;color:#858a97;font-size:12px;line-height:1.5;margin-bottom:25px}.message{display:none;padding:10px;border-radius:8px;font-size:11px;text-align:center;line-height:1.5;margin-bottom:15px}.message.error{display:block;background:#fee2e2;color:#dc2626}.message.success{display:block;background:#dcfce7;color:#16a34a}.form-group{margin-bottom:16px}label{display:block;font-size:11px;font-weight:600;margin-bottom:7px}input{width:100%;padding:12px;border:1px solid #dfe2ea;border-radius:9px;outline:none;font-size:12px}input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.08)}.password-box{position:relative}.password-box input{padding-right:45px}.eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer}.login-btn{width:100%;border:0;background:#6366f1;color:#fff;padding:13px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;margin-top:5px}.login-btn:hover{background:#4f46e5}.login-btn:disabled{opacity:.7;cursor:not-allowed}.back{display:block;text-align:center;margin-top:18px;color:#9297a4;font-size:11px;text-decoration:none}.back:hover{color:#6366f1}.note{margin-top:18px;padding-top:15px;border-top:1px solid #eeeef2;color:#9a9eaa;font-size:10px;text-align:center;line-height:1.5}@media(max-width:500px){.card{padding:25px 20px}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo"><div class="logo-icon"><img src="logo.jpeg" alt="StudyAI Logo"></div><div class="logo-text">Study<span>AI</span></div></div>
+<div class="card">
+<div class="badge">🛡️ Administrator Access</div>
+<h1>Admin Login</h1>
+<p class="subtitle">Sign in with your StudyAI administrator account.</p>
+<div id="message" class="message"></div>
+<form id="adminLoginForm">
+<div class="form-group"><label for="adminEmail">Email Address</label><input id="adminEmail" type="email" placeholder="Enter admin email" autocomplete="username" required></div>
+<div class="form-group"><label for="adminPassword">Password</label><div class="password-box"><input id="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password" required><button class="eye" type="button" id="eyeBtn">👁</button></div></div>
+<button class="login-btn" id="adminLoginButton" type="submit">Login as Admin</button>
+</form>
+<div class="note">Only the separate <strong>admin password</strong> stored in <strong>admin_password_hash</strong> can be used on this page.</div>
+<a class="back" href="login.html">← Back to User Login</a>
+</div>
+</div>
+<script>
+const API_URL="http://127.0.0.1:5000/api/admin";
+const form=document.getElementById("adminLoginForm");
+const emailInput=document.getElementById("adminEmail");
+const passwordInput=document.getElementById("adminPassword");
+const button=document.getElementById("adminLoginButton");
+const message=document.getElementById("message");
+const eye=document.getElementById("eyeBtn");
+function showMessage(text,type){message.textContent=text;message.className="message "+type}
+eye.addEventListener("click",()=>{passwordInput.type=passwordInput.type==="password"?"text":"password"});
+form.addEventListener("submit",async e=>{
+ e.preventDefault();
+ const email=emailInput.value.trim().toLowerCase();
+ const password=passwordInput.value;
+ message.className="message";message.textContent="";
+ if(!email||!password){showMessage("Please enter admin email and password.","error");return}
+ button.disabled=true;button.textContent="Checking...";
+ try{
+  const response=await fetch(`${API_URL}/login`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok){showMessage(data.message||"Invalid admin email or password.","error");return}
+  if(!data.token||!data.user||String(data.user.role).toLowerCase()!=="admin"){showMessage("Administrator authentication failed.","error");return}
+  localStorage.removeItem("studyAI_token");
+  localStorage.removeItem("studyAI_user");
+  localStorage.removeItem("studyAI_loggedIn");
+  localStorage.setItem("studyAI_admin_token",data.token);
+  localStorage.setItem("studyAI_admin_user",JSON.stringify({id:data.user.id,name:data.user.name,email:data.user.email,role:"admin"}));
+  localStorage.setItem("studyAI_adminLoggedIn","true");
+  showMessage("Admin login successful. Redirecting...","success");
+  setTimeout(()=>{window.location.href="admin.html"},400);
+ }catch(error){console.error(error);showMessage("Unable to connect to StudyAI server. Make sure the backend is running.","error")}
+ finally{button.disabled=false;button.textContent="Login as Admin"}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StudyAI - My Profile</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#171a2b;
+    min-height:100vh;
+}
+
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:240px;
+    height:100vh;
+    background:#fff;
+    border-right:1px solid #e8eaf0;
+    padding:25px 18px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 10px 30px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.logo-text{
+    font-size:21px;
+    font-weight:750;
+}
+
+.logo-text span{
+    color:#6366f1;
+}
+
+.side-title{
+    font-size:11px;
+    color:#9ca3af;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:0 12px;
+    margin-bottom:12px;
+}
+
+.side-menu{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.side-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:10px;
+    color:#6b7280;
+    text-decoration:none;
+    font-size:14px;
+    transition:.2s;
+}
+
+.side-item:hover,
+.side-item.active{
+    background:#eeedff;
+    color:#5b5ce2;
+}
+
+.side-item.active{
+    font-weight:600;
+}
+
+.side-icon{
+    width:20px;
+    text-align:center;
+    font-size:17px;
+}
+
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:240px;
+    min-height:100vh;
+}
+
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    height:76px;
+    background:#fff;
+    border-bottom:1px solid #e8eaf0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 32px;
+}
+
+.top-nav{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.top-nav a{
+    text-decoration:none;
+    color:#606575;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:9px;
+    white-space:nowrap;
+}
+
+.top-nav a:hover,
+.top-nav a.active{
+    color:#5b5ce2;
+    background:#eeedff;
+}
+
+.notification-btn{
+    width:42px;
+    height:42px;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    background:#f6f7fa;
+    margin-left:8px;
+    font-size:18px !important;
+}
+
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:42px;
+    max-width:1050px;
+    margin:auto;
+}
+
+.page-heading{
+    margin-bottom:30px;
+}
+
+.page-heading h1{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.page-heading p{
+    color:#7b8190;
+    font-size:14px;
+}
+
+
+/* ================= PROFILE HERO ================= */
+
+.profile-card{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 8px 30px rgba(30,35,90,.04);
+    margin-bottom:22px;
+}
+
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding-bottom:25px;
+    border-bottom:1px solid #eeeef2;
+}
+
+.avatar{
+    width:80px;
+    height:80px;
+    border-radius:22px;
+    background:linear-gradient(135deg,#6366f1,#a855f7);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    font-weight:700;
+    flex-shrink:0;
+}
+
+.profile-header h2{
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+.profile-header p{
+    color:#9297a4;
+    font-size:13px;
+}
+
+
+/* ================= DETAILS ================= */
+
+.details-title{
+    font-size:16px;
+    margin:25px 0 15px;
+}
+
+.details-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.detail{
+    background:#f8f8fc;
+    border-radius:12px;
+    padding:16px;
+}
+
+.detail-label{
+    font-size:10px;
+    color:#9297a4;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    margin-bottom:6px;
+}
+
+.detail-value{
+    font-size:13px;
+    font-weight:600;
+    color:#252735;
+    word-break:break-word;
+}
+
+
+/* ================= VERIFIED ================= */
+
+.verified{
+    color:#16a34a;
+}
+
+.verified::before{
+    content:"✓ ";
+}
+
+
+/* ================= ACTIONS ================= */
+
+.actions{
+    display:flex;
+    gap:12px;
+    margin-top:25px;
+}
+
+.action-btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+    text-decoration:none;
+    text-align:center;
+}
+
+.home-btn{
+    background:#eeedff;
+    color:#5b5ce2;
+}
+
+.help-btn{
+    background:#6366f1;
+    color:#fff;
+}
+
+.logout-btn{
+    background:#fff1f2;
+    color:#dc2626;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
+
+    .sidebar{
+        width:70px;
+        padding:20px 10px;
+    }
+
+    .logo{
+        justify-content:center;
+        padding:5px 0 30px;
+    }
+
+    .logo-text,
+    .side-title,
+    .side-item span:not(.side-icon){
+        display:none;
+    }
+
+    .side-item{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .content{
+        padding:25px 15px;
+    }
+
+    .page-heading h1{
+        font-size:24px;
+    }
+
+    .profile-card{
+        padding:20px;
+    }
+
+    .profile-header{
+        align-items:flex-start;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <img
+                src="logo.jpeg"
+                alt="StudyAI">
+
+        </div>
+
+        <div class="logo-text">
+            Study<span>AI</span>
+        </div>
+
+    </div>
+
+
+    <div class="side-title">
+        Workspace
+    </div>
+
+
+    <nav class="side-menu">
+
+        <a href="index.html" class="side-item">
+
+            <span class="side-icon">⌂</span>
+
+            <span>Home</span>
+
+        </a>
+
+
+        <a href="dashboard.html" class="side-item">
+
+            <span class="side-icon">▦</span>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="aiplan.html" class="side-item">
+
+            <span class="side-icon">✦</span>
+
+            <span>AI Planner</span>
+
+        </a>
+
+
+        <a href="aiquestG.html" class="side-item">
+
+            <span class="side-icon">?</span>
+
+            <span>AI Question Generator</span>
+
+        </a>
+
+
+        <a href="progress.html" class="side-item">
+
+            <span class="side-icon">◔</span>
+
+            <span>Progress Tracker</span>
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <header class="topbar">
+
+        <nav class="top-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="aiplan.html">
+                AI Planner
+            </a>
+
+            <a href="aiquestG.html">
+                AI Question Generator
+            </a>
+
+            <a href="progress.html">
+                Progress Tracker
+            </a>
+
+            <a
+                href="notifications.html"
+                class="notification-btn">
+
+                🔔
+
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <section class="content">
+
+
+        <div class="page-heading">
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p>
+                View your StudyAI account information.
+            </p>
+
+        </div>
+
+
+
+        <div class="profile-card">
+
+
+            <!-- PROFILE HEADER -->
+
+            <div class="profile-header">
+
+                <div
+                    class="avatar"
+                    id="avatar">
+
+                    U
+
+                </div>
+
+
+                <div>
+
+                    <h2 id="profileName">
+                        User
+                    </h2>
+
+                    <p id="profileEmail">
+                        user@example.com
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACCOUNT DETAILS -->
+
+            <h3 class="details-title">
+                Account Details
+            </h3>
+
+
+            <div class="details-grid">
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Full Name
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailName">
+
+                        —
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Email Address
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailEmail">
+
+                        —
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Account ID
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailId">
+
+                        —
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Account Role
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailRole">
+
+                        Client
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Email Verification
+                    </div>
+
+                    <div
+                        class="detail-value verified"
+                        id="detailVerified">
+
+                        Verified
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Account Status
+                    </div>
+
+                    <div class="detail-value verified">
+
+                        Active
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <a
+                    href="index.html"
+                    class="action-btn home-btn">
+
+                    ← Back Home
+
+                </a>
+
+
+                <a
+                    href="help.html"
+                    class="action-btn help-btn">
+
+                    🤖 Help & Support
+
+                </a>
+
+
+                <button
+                    class="action-btn logout-btn"
+                    onclick="logoutUser()">
+
+                    Logout
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<script>
+
+/* =====================================================
+   GET USER
+===================================================== */
+
+function getUser(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                "studyAI_user"
+            );
+
+
+        if(!saved){
+
+            return null;
+
+        }
+
+
+        return JSON.parse(saved);
+
+    }
+    catch(error){
+
+        console.error(
+            "User loading error:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIALS
+===================================================== */
+
+function getInitials(name){
+
+    if(!name){
+
+        return "U";
+
+    }
+
+
+    const words =
+        name.trim().split(/\s+/);
+
+
+    if(words.length === 1){
+
+        return words[0]
+            .substring(0,2)
+            .toUpperCase();
+
+    }
+
+
+    return (
+        words[0][0] +
+        words[words.length - 1][0]
+    ).toUpperCase();
+
+}
+
+
+/* =====================================================
+   LOAD PROFILE
+===================================================== */
+
+function loadProfile(){
+
+    const token =
+        localStorage.getItem(
+            "studyAI_token"
+        );
+
+    const user =
+        getUser();
+
+
+    if(!token || !user){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const name =
+        user.name || "User";
+
+    const email =
+        user.email || "—";
+
+    const id =
+        user.id || "—";
+
+    const role =
+        user.role || "client";
+
+
+    document.getElementById(
+        "avatar"
+    ).textContent =
+        getInitials(name);
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "profileEmail"
+    ).textContent =
+        email;
+
+
+    document.getElementById(
+        "detailName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "detailEmail"
+    ).textContent =
+        email;
+
+
+    document.getElementById(
+        "detailId"
+    ).textContent =
+        id;
+
+
+    document.getElementById(
+        "detailRole"
+    ).textContent =
+        role.charAt(0).toUpperCase() +
+        role.slice(1);
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logoutUser(){
+
+    if(
+        !confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "studyAI_token"
+    );
+
+    localStorage.removeItem(
+        "studyAI_user"
+    );
+
+    localStorage.removeItem(
+        "studyAI_loggedIn"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+loadProfile();
+
+</script>
+
+</body>
+
+</html>

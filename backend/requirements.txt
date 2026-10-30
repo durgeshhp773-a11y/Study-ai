@@ -1,0 +1,6 @@
+Flask
+flask-cors
+mysql-connector-python
+Werkzeug
+google-genai
+python-dotenv>=1.0.0

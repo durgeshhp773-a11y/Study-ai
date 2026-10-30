@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StudyAI - Create Account</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f5f7fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:430px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.logo-text{
+    font-size:23px;
+    font-weight:750;
+}
+
+.logo-text span{
+    color:#6366f1;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #e7e9ef;
+    border-radius:20px;
+    padding:32px;
+    box-shadow:0 15px 45px rgba(0,0,0,.06);
+}
+
+h1{
+    font-size:23px;
+    text-align:center;
+    margin-bottom:7px;
+}
+
+.subtitle{
+    color:#858a97;
+    font-size:12px;
+    text-align:center;
+    line-height:1.5;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+label{
+    display:block;
+    font-size:11px;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #dfe2ea;
+    border-radius:9px;
+    outline:none;
+    font-size:12px;
+}
+
+input:focus{
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px rgba(99,102,241,.08);
+}
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:45px;
+}
+
+.show-password{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.register-btn{
+    width:100%;
+    border:none;
+    background:#6366f1;
+    color:white;
+    padding:13px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    margin-top:5px;
+    transition:.2s;
+}
+
+.register-btn:hover{
+    background:#4f46e5;
+}
+
+.register-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.message{
+    display:none;
+    margin-bottom:15px;
+    padding:10px;
+    border-radius:8px;
+    font-size:11px;
+    text-align:center;
+    line-height:1.5;
+}
+
+.error{
+    display:block;
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.success{
+    display:block;
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:20px;
+    font-size:11px;
+    color:#858a97;
+}
+
+.login-link a{
+    color:#6366f1;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.terms{
+    text-align:center;
+    color:#a0a4ae;
+    font-size:9px;
+    line-height:1.5;
+    margin-top:18px;
+}
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:20px 0;
+    color:#9ca3af;
+    font-size:11px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#e5e7eb;
+}
+
+.google-btn{
+    width:100%;
+    height:46px;
+    border:1px solid #dfe2ea;
+    border-radius:10px;
+    background:#fff;
+    color:#30313d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.google-btn:hover{
+    background:#f8f8ff;
+    border-color:#c7c9d9;
+    transform:translateY(-1px);
+}
+
+.google-icon{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    font-weight:700;
+    color:#4285f4;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================================
+         LOGO
+    ===================================================== -->
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <img
+                src="logo.jpeg"
+                alt="StudyAI Logo">
+
+        </div>
+
+        <div class="logo-text">
+
+            Study<span>AI</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         CARD
+    ===================================================== -->
+
+    <div class="card">
+
+
+        <h1>
+            Create your account
+        </h1>
+
+
+        <p class="subtitle">
+
+            Start your personalized
+            AI-powered learning journey.
+
+        </p>
+
+
+        <!-- =================================================
+             MESSAGE
+        ================================================= -->
+
+        <div
+            id="message"
+            class="message">
+
+        </div>
+
+
+        <!-- =================================================
+             REGISTER FORM
+        ================================================= -->
+
+        <form id="registerForm">
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('password')">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('confirmPassword')">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 REGISTER BUTTON
+            ================================================= -->
+
+            <button
+                type="submit"
+                class="register-btn"
+                id="registerButton">
+
+                Create Account
+
+            </button>
+
+
+            <!-- =================================================
+                 GOOGLE
+            ================================================= -->
+
+            <div class="divider">
+
+                <span>
+                    OR
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="google-btn"
+                onclick="googleRegister()">
+
+                <span class="google-icon">
+                    G
+                </span>
+
+                Continue with Google
+
+            </button>
+
+
+        </form>
+
+
+        <!-- =================================================
+             LOGIN
+        ================================================= -->
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             TERMS
+        ================================================= -->
+
+        <div class="terms">
+
+            By creating an account, you agree to use
+            StudyAI responsibly.
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_URL =
+    "http://127.0.0.1:5000/api/auth";
+
+
+/* =====================================================
+   PASSWORD TOGGLE
+===================================================== */
+
+function togglePassword(id){
+
+    const input =
+        document.getElementById(id);
+
+
+    if(
+        input.type === "password"
+    ){
+
+        input.type =
+            "text";
+
+    }
+    else{
+
+        input.type =
+            "password";
+
+    }
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type
+){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        text;
+
+
+    message.className =
+        "message " +
+        type;
+
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+document
+    .getElementById(
+        "registerForm"
+    )
+    .addEventListener(
+        "submit",
+        async function(event){
+
+            event.preventDefault();
+
+
+            /* =================================================
+               GET VALUES
+            ================================================= */
+
+            const name =
+                document
+                    .getElementById(
+                        "name"
+                    )
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById(
+                        "email"
+                    )
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById(
+                        "password"
+                    )
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById(
+                        "confirmPassword"
+                    )
+                    .value;
+
+
+            /* =================================================
+               VALIDATION
+            ================================================= */
+
+            if(
+                name.length < 2
+            ){
+
+                showMessage(
+                    "Please enter your full name.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if(
+                password.length < 6
+            ){
+
+                showMessage(
+                    "Password must contain at least 6 characters.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if(
+                password !==
+                confirmPassword
+            ){
+
+                showMessage(
+                    "Passwords do not match.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               BUTTON
+            ================================================= */
+
+            const registerButton =
+                document.getElementById(
+                    "registerButton"
+                );
+
+
+            registerButton.disabled =
+                true;
+
+
+            registerButton.textContent =
+                "Sending OTP...";
+
+
+            /* =================================================
+               API REQUEST
+            ================================================= */
+
+            try{
+
+                const response =
+                    await fetch(
+                        `${API_URL}/register`,
+                        {
+
+                            method:
+                                "POST",
+
+                            headers:{
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    name:
+                                        name,
+
+                                    email:
+                                        email,
+
+                                    password:
+                                        password
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                /* =================================================
+                   SERVER ERROR
+                ================================================= */
+
+                if(
+                    !response.ok
+                ){
+
+                    showMessage(
+                        data.message ||
+                        "Registration failed.",
+                        "error"
+                    );
+
+
+                    registerButton.disabled =
+                        false;
+
+
+                    registerButton.textContent =
+                        "Create Account";
+
+
+                    return;
+
+                }
+
+
+                /* =================================================
+                   OTP SENT
+                ================================================= */
+
+                /*
+                    IMPORTANT:
+
+                    Store the email temporarily.
+
+                    We do NOT store the password
+                    in localStorage/sessionStorage.
+                */
+
+                const pendingEmail =
+                    data.email ||
+                    email;
+
+
+                sessionStorage.setItem(
+                    "studyAI_pendingEmail",
+                    pendingEmail
+                );
+
+
+                sessionStorage.setItem(
+                    "studyAI_pendingName",
+                    name
+                );
+
+
+                /* =================================================
+                   SUCCESS MESSAGE
+                ================================================= */
+
+                showMessage(
+                    "OTP sent to your email. Please verify your account. 📩",
+                    "success"
+                );
+
+
+                /* =================================================
+                   GO TO OTP PAGE
+                ================================================= */
+
+                setTimeout(
+                    function(){
+
+                        window.location.href =
+                            "verifyotp.html";
+
+                    },
+                    1000
+                );
+
+
+            }
+            catch(error){
+
+                console.error(
+                    "Registration Error:",
+                    error
+                );
+
+
+                showMessage(
+                    "Unable to connect to StudyAI server. Make sure the backend is running.",
+                    "error"
+                );
+
+
+                registerButton.disabled =
+                    false;
+
+
+                registerButton.textContent =
+                    "Create Account";
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   GOOGLE LOGIN
+===================================================== */
+
+let googleReady = false;
+
+async function loadGoogleIdentityServices(){
+
+    if(googleReady && window.google && google.accounts){
+        return true;
+    }
+
+    const response = await fetch(
+        `${API_URL}/google-config`
+    );
+
+    const config = await response.json();
+
+    if(
+        !response.ok ||
+        !config.client_id
+    ){
+        throw new Error(
+            config.message ||
+            "Google Login is not configured."
+        );
+    }
+
+    window.STUDYAI_GOOGLE_CLIENT_ID =
+        config.client_id;
+
+    await new Promise(
+        function(resolve, reject){
+
+            if(
+                document.getElementById(
+                    "google-gsi-script"
+                )
+            ){
+
+                const waitForGoogle =
+                    setInterval(
+                        function(){
+
+                            if(
+                                window.google &&
+                                window.google.accounts
+                            ){
+
+                                clearInterval(
+                                    waitForGoogle
+                                );
+
+                                resolve();
+
+                            }
+
+                        },
+                        50
+                    );
+
+                setTimeout(
+                    function(){
+
+                        clearInterval(
+                            waitForGoogle
+                        );
+
+                        reject(
+                            new Error(
+                                "Google Identity Services failed to load."
+                            )
+                        );
+
+                    },
+                    8000
+                );
+
+                return;
+            }
+
+            const script =
+                document.createElement("script");
+
+            script.id =
+                "google-gsi-script";
+
+            script.src =
+                "https://accounts.google.com/gsi/client";
+
+            script.async = true;
+            script.defer = true;
+
+            script.onload =
+                function(){
+
+                    resolve();
+
+                };
+
+            script.onerror =
+                function(){
+
+                    reject(
+                        new Error(
+                            "Unable to load Google Login."
+                        )
+                    );
+
+                };
+
+            document.head.appendChild(
+                script
+            );
+
+        }
+    );
+
+    googleReady = true;
+
+    return true;
+}
+
+
+async function googleRegister(){
+
+    const googleButton =
+        document.querySelector(
+            ".google-btn"
+        );
+
+    try{
+
+        googleButton.disabled = true;
+        googleButton.textContent =
+            "Connecting to Google...";
+
+        await loadGoogleIdentityServices();
+
+        window.google.accounts.id.initialize({
+
+            client_id:
+                window.STUDYAI_GOOGLE_CLIENT_ID,
+
+            callback:
+                handleGoogleCredential,
+
+            auto_select:
+                false,
+
+            cancel_on_tap_outside:
+                false
+
+        });
+
+        window.google.accounts.id.prompt();
+
+    }
+    catch(error){
+
+        console.error(
+            "Google Login Error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+                "Unable to start Google Login.",
+            "error"
+        );
+
+        googleButton.disabled = false;
+        googleButton.innerHTML =
+            '<span class="google-icon">G</span> Continue with Google';
+
+    }
+}
+
+
+async function handleGoogleCredential(
+    googleResponse
+){
+
+    const googleButton =
+        document.querySelector(
+            ".google-btn"
+        );
+
+    try{
+
+        showMessage(
+            "Verifying your Google account...",
+            "success"
+        );
+
+        const response =
+            await fetch(
+                `${API_URL}/google`,
+                {
+
+                    method:
+                        "POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            credential:
+                                googleResponse.credential
+
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Google Login failed."
+            );
+
+        }
+
+        if(
+            !data.token ||
+            !data.user
+        ){
+
+            throw new Error(
+                "Invalid Google Login response."
+            );
+
+        }
+
+        localStorage.setItem(
+            "studyAI_token",
+            data.token
+        );
+
+        localStorage.setItem(
+            "studyAI_user",
+            JSON.stringify({
+
+                id:
+                    data.user.id,
+
+                name:
+                    data.user.name,
+
+                email:
+                    data.user.email,
+
+                role:
+                    data.user.role ||
+                    "client"
+
+            })
+        );
+
+        localStorage.setItem(
+            "studyAI_loggedIn",
+            "true"
+        );
+
+        showMessage(
+            "Google account login successful! 🎉",
+            "success"
+        );
+
+        setTimeout(
+            function(){
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            500
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Google authentication error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+            "Unable to login with Google.",
+            "error"
+        );
+
+    }
+    finally{
+
+        googleButton.disabled =
+            false;
+
+        googleButton.innerHTML =
+            '<span class="google-icon">G</span> Continue with Google';
+
+    }
+}
+</script>
+
+
+</body>
+
+</html>

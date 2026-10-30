@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StudyAI - Help & Support</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#171a2b;
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:240px;
+    height:100vh;
+    background:#fff;
+    border-right:1px solid #e8eaf0;
+    padding:25px 18px;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 10px 30px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.logo-text{
+    font-size:21px;
+    font-weight:750;
+}
+
+.logo-text span{
+    color:#6366f1;
+}
+
+.side-title{
+    font-size:11px;
+    color:#9ca3af;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:0 12px;
+    margin-bottom:12px;
+}
+
+.side-menu{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.side-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:10px;
+    color:#6b7280;
+    text-decoration:none;
+    font-size:14px;
+    transition:.2s;
+}
+
+.side-item:hover,
+.side-item.active{
+    background:#eeedff;
+    color:#5b5ce2;
+}
+
+.side-item.active{
+    font-weight:600;
+}
+
+.side-icon{
+    width:20px;
+    text-align:center;
+    font-size:17px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+    margin-left:240px;
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+    height:76px;
+    background:#fff;
+    border-bottom:1px solid #e8eaf0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 32px;
+}
+
+.top-nav{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.top-nav a{
+    text-decoration:none;
+    color:#606575;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:9px;
+    white-space:nowrap;
+    transition:.2s;
+}
+
+.top-nav a:hover,
+.top-nav a.active{
+    color:#5b5ce2;
+    background:#eeedff;
+}
+
+.top-nav a.active{
+    font-weight:600;
+}
+
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+.notification-btn{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    background:#f6f7fa;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    margin-left:8px;
+    font-size:18px !important;
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6366f1,#a855f7);
+    color:#fff !important;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    margin-left:8px;
+    font-size:13px !important;
+    font-weight:600;
+    padding:0 !important;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+    max-width:1150px;
+    margin:auto;
+    padding:42px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:30px;
+    font-weight:750;
+    margin-bottom:8px;
+}
+
+.page-header p{
+    color:#7b8190;
+    font-size:14px;
+}
+
+
+/* =========================================================
+   CHAT CARD
+========================================================= */
+
+.chat-card{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 8px 30px rgba(30,35,90,.05);
+}
+
+
+/* =========================================================
+   CHAT HEADER
+========================================================= */
+
+.chat-header{
+    padding:18px 22px;
+    border-bottom:1px solid #e8eaf0;
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.bot-avatar{
+    width:45px;
+    height:45px;
+    border-radius:13px;
+    background:linear-gradient(135deg,#6366f1,#a855f7);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+}
+
+.chat-title{
+    flex:1;
+}
+
+.chat-title h2{
+    font-size:16px;
+    margin-bottom:3px;
+}
+
+.chat-title p{
+    color:#9297a4;
+    font-size:11px;
+}
+
+.online-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 0 4px #dcfce7;
+}
+
+
+/* =========================================================
+   CHAT BODY
+========================================================= */
+
+.chat-body{
+    height:480px;
+    overflow-y:auto;
+    padding:24px;
+    background:#fafbfe;
+}
+
+.chat-body::-webkit-scrollbar{
+    width:6px;
+}
+
+.chat-body::-webkit-scrollbar-thumb{
+    background:#d8dbea;
+    border-radius:10px;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message-row{
+    display:flex;
+    margin-bottom:18px;
+}
+
+.message-row.user{
+    justify-content:flex-end;
+}
+
+.message{
+    max-width:72%;
+    padding:12px 15px;
+    border-radius:14px;
+    font-size:13px;
+    line-height:1.55;
+}
+
+.message.bot{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    color:#353846;
+    border-top-left-radius:4px;
+}
+
+.message.user{
+    background:#6366f1;
+    color:#fff;
+    border-top-right-radius:4px;
+}
+
+
+/* =========================================================
+   QUICK QUESTIONS
+========================================================= */
+
+.quick-section{
+    padding:16px 22px;
+    border-top:1px solid #e8eaf0;
+    background:#fff;
+}
+
+.quick-title{
+    font-size:11px;
+    color:#9297a4;
+    margin-bottom:10px;
+}
+
+.quick-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.quick-btn{
+    border:1px solid #dedff0;
+    background:#f8f8fc;
+    color:#555968;
+    padding:8px 12px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:11px;
+    transition:.2s;
+}
+
+.quick-btn:hover{
+    background:#eeedff;
+    color:#5b5ce2;
+    border-color:#d6d5ff;
+}
+
+
+/* =========================================================
+   CHAT INPUT
+========================================================= */
+
+.chat-input-area{
+    display:flex;
+    gap:10px;
+    padding:15px 18px;
+    border-top:1px solid #e8eaf0;
+    background:#fff;
+}
+
+.chat-input{
+    flex:1;
+    height:44px;
+    border:1px solid #dfe2ea;
+    border-radius:11px;
+    outline:none;
+    padding:0 14px;
+    font-size:12px;
+    color:#252735;
+}
+
+.chat-input:focus{
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px rgba(99,102,241,.08);
+}
+
+.send-btn{
+    width:45px;
+    height:44px;
+    border:none;
+    border-radius:11px;
+    background:#6366f1;
+    color:#fff;
+    cursor:pointer;
+    font-size:17px;
+    transition:.2s;
+}
+
+.send-btn:hover{
+    background:#4f46e5;
+    transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   TYPING
+========================================================= */
+
+.typing{
+    display:none;
+    margin-bottom:15px;
+}
+
+.typing-bubble{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    padding:12px 15px;
+    border-radius:14px;
+    border-top-left-radius:4px;
+}
+
+.typing-bubble span{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#9ca3af;
+    animation:typing 1.2s infinite;
+}
+
+.typing-bubble span:nth-child(2){
+    animation-delay:.2s;
+}
+
+.typing-bubble span:nth-child(3){
+    animation-delay:.4s;
+}
+
+@keyframes typing{
+
+    0%,60%,100%{
+        transform:translateY(0);
+        opacity:.4;
+    }
+
+    30%{
+        transform:translateY(-4px);
+        opacity:1;
+    }
+
+}
+
+
+/* =========================================================
+   INFO CARDS
+========================================================= */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:20px;
+}
+
+.info-card{
+    background:#fff;
+    border:1px solid #e7e9ef;
+    border-radius:14px;
+    padding:20px;
+}
+
+.info-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:#eeedff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+}
+
+.info-card h3{
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.info-card p{
+    color:#858a97;
+    font-size:11px;
+    line-height:1.55;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:70px;
+        padding:20px 10px;
+    }
+
+    .logo{
+        justify-content:center;
+        padding:5px 0 30px;
+    }
+
+    .logo-text,
+    .side-title,
+    .side-item span:not(.side-icon){
+        display:none;
+    }
+
+    .side-item{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        overflow-x:auto;
+        justify-content:flex-start;
+        padding:0 15px;
+    }
+
+    .content{
+        padding:30px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .content{
+        padding:20px 14px;
+    }
+
+    .page-header h1{
+        font-size:24px;
+    }
+
+    .chat-body{
+        height:430px;
+        padding:16px;
+    }
+
+    .message{
+        max-width:88%;
+    }
+
+    .quick-buttons{
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        padding-bottom:3px;
+    }
+
+    .quick-btn{
+        white-space:nowrap;
+    }
+
+}
+
+
+        .ai-step-number{
+            font-weight:700;
+            color:#6366f1;
+        }
+
+        .ai-bullet{
+            font-weight:700;
+            color:#6366f1;
+            margin-right:4px;
+        }
+
+        .bot-message strong{
+            font-weight:700;
+        }
+
+        .bot-message code{
+            padding:2px 6px;
+            border-radius:5px;
+            background:#f1f1ff;
+            font-size:.92em;
+        }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <img
+                src="logo.jpeg"
+                alt="StudyAI Logo">
+
+        </div>
+
+        <div class="logo-text">
+            Study<span>AI</span>
+        </div>
+
+    </div>
+
+
+    <div class="side-title">
+        Workspace
+    </div>
+
+
+    <nav class="side-menu">
+
+        <a
+            href="index.html"
+            class="side-item">
+
+            <span class="side-icon">⌂</span>
+
+            <span>Home</span>
+
+        </a>
+
+
+        <a
+            href="dashboard.html"
+            class="side-item">
+
+            <span class="side-icon">▦</span>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a
+            href="aiplan.html"
+            class="side-item">
+
+            <span class="side-icon">✦</span>
+
+            <span>AI Planner</span>
+
+        </a>
+
+
+        <a
+            href="aiquestG.html"
+            class="side-item">
+
+            <span class="side-icon">?</span>
+
+            <span>AI Question Generator</span>
+
+        </a>
+
+
+        <a
+            href="progress.html"
+            class="side-item">
+
+            <span class="side-icon">◔</span>
+
+            <span>Progress Tracker</span>
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- =====================================================
+         TOPBAR
+    ===================================================== -->
+
+    <header class="topbar">
+
+        <nav class="top-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="aiplan.html">
+                AI Planner
+            </a>
+
+            <a href="aiquestG.html">
+                AI Question Generator
+            </a>
+
+            <a href="progress.html">
+                Progress Tracker
+            </a>
+
+            <a
+                href="notifications.html"
+                class="notification-btn"
+                title="Notifications">
+
+                🔔
+
+            </a>
+
+
+            <a
+                href="profile.html"
+                class="profile"
+                id="profileButton">
+
+                U
+
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTENT
+    ===================================================== -->
+
+    <section class="content">
+
+
+        <div class="page-header">
+
+            <h1>
+                Help & Support 🤖
+            </h1>
+
+            <p>
+                Ask the StudyAI Assistant about your learning,
+                uploaded materials, questions and general support.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CHAT CARD
+        ================================================= -->
+
+        <div class="chat-card">
+
+
+            <!-- CHAT HEADER -->
+
+            <div class="chat-header">
+
+                <div class="bot-avatar">
+                    🤖
+                </div>
+
+                <div class="chat-title">
+
+                    <h2>
+                        StudyAI Assistant
+                    </h2>
+
+                    <p>
+                        Frontend demo assistant
+                    </p>
+
+                </div>
+
+                <div class="online-dot"></div>
+
+            </div>
+
+
+
+            <!-- CHAT BODY -->
+
+            <div
+                class="chat-body"
+                id="chatBody">
+
+
+                <!-- INITIAL MESSAGE -->
+
+                <div class="message-row">
+
+                    <div class="message bot">
+
+                        Hi! 👋 I'm the StudyAI Assistant.
+                        <br><br>
+                        I can currently help you with
+                        common StudyAI questions in demo mode.
+                        Later, we'll connect me to an AI API.
+
+                    </div>
+
+                </div>
+
+
+                <!-- TYPING -->
+
+                <div
+                    class="typing"
+                    id="typing">
+
+                    <div class="typing-bubble">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK QUESTIONS
+            ================================================= -->
+
+            <div class="quick-section">
+
+                <div class="quick-title">
+                    Quick questions
+                </div>
+
+
+                <div class="quick-buttons">
+
+
+                    <button
+                        class="quick-btn"
+                        type="button"
+                        onclick="askQuestion('How do I upload a PDF?')">
+
+                        How do I upload a PDF?
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        type="button"
+                        onclick="askQuestion('What is AI Planner?')">
+
+                        What is AI Planner?
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        type="button"
+                        onclick="askQuestion('What does Progress Tracker do?')">
+
+                        Progress Tracker
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        type="button"
+                        onclick="askQuestion('How does AI Question Generator work?')">
+
+                        Question Generator
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        type="button"
+                        onclick="askQuestion('How can I change my password?')">
+
+                        Change password
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 INPUT
+            ================================================= -->
+
+            <div class="chat-input-area">
+
+
+                <input
+                    type="text"
+                    id="chatInput"
+                    class="chat-input"
+                    placeholder="Ask something about StudyAI..."
+                    autocomplete="off">
+
+
+                <button
+                    type="button"
+                    class="send-btn"
+                    id="sendButton"
+                    title="Send">
+
+                    ➤
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             INFO
+        ================================================= -->
+
+        <div class="info-grid">
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    📚
+                </div>
+
+                <h3>
+                    Study Materials
+                </h3>
+
+                <p>
+                    Upload PDF study material from the Home
+                    page. Your uploaded materials appear in
+                    the Dashboard.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Features
+                </h3>
+
+                <p>
+                    AI Planner and AI Question Generator will
+                    use your study material once the AI service
+                    is connected.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Account
+                </h3>
+
+                <p>
+                    Manage your account information from the
+                    My Profile section.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const chatBody =
+    document.getElementById("chatBody");
+
+const chatInput =
+    document.getElementById("chatInput");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+const typing =
+    document.getElementById("typing");
+
+const profileButton =
+    document.getElementById("profileButton");
+
+
+/* =========================================================
+   LOAD USER PROFILE
+========================================================= */
+
+function loadProfile(){
+
+    try{
+
+        const savedUser =
+            localStorage.getItem("studyAI_user");
+
+
+        if(!savedUser){
+
+            profileButton.textContent =
+                "U";
+
+            return;
+
+        }
+
+
+        const user =
+            JSON.parse(savedUser);
+
+
+        if(user && user.name){
+
+            profileButton.textContent =
+                getInitials(user.name);
+
+        }
+        else{
+
+            profileButton.textContent =
+                "U";
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Profile loading error:",
+            error
+        );
+
+        profileButton.textContent =
+            "U";
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALS
+========================================================= */
+
+function getInitials(name){
+
+    if(!name){
+
+        return "U";
+
+    }
+
+
+    const words =
+        name
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+
+    if(words.length === 1){
+
+        return words[0]
+            .substring(0,2)
+            .toUpperCase();
+
+    }
+
+
+    return (
+        words[0].charAt(0) +
+        words[words.length - 1].charAt(0)
+    ).toUpperCase();
+
+}
+
+
+/* =========================================================
+   ADD USER MESSAGE
+========================================================= */
+
+function addUserMessage(text){
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "message-row user";
+
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message user";
+
+
+    /*
+       textContent is intentionally used here.
+       This prevents HTML such as <b> from appearing
+       as HTML/code or causing unwanted markup.
+    */
+
+    message.textContent =
+        text;
+
+
+    row.appendChild(message);
+
+    chatBody.insertBefore(
+        row,
+        typing
+    );
+
+
+    scrollToBottom();
+
+}
+
+
+/* =========================================================
+   ADD BOT MESSAGE
+========================================================= */
+
+function formatAIResponse(text){
+
+    let safe = String(text || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    // Markdown-style bold: **text** -> <strong>text</strong>
+    safe = safe.replace(
+        /\*\*(.+?)\*\*/g,
+        "<strong>$1</strong>"
+    );
+
+    // Markdown-style inline code
+    safe = safe.replace(
+        /`([^`]+)`/g,
+        "<code>$1</code>"
+    );
+
+    // Convert numbered lines into readable list items.
+    safe = safe.replace(
+        /(?:^|<br\s*\/?>|\n)\s*(\d+)\.\s+/g,
+        function(match, number){
+            return "<br><span class=\"ai-step-number\">" +
+                number +
+                ".</span> ";
+        }
+    );
+
+    // Convert bullet lines.
+    safe = safe.replace(
+        /(?:^|<br\s*\/?>|\n)\s*[-•]\s+/g,
+        "<br><span class=\"ai-bullet\">•</span> "
+    );
+
+    // New lines -> spacing
+    safe = safe.replace(
+        /\r?\n/g,
+        "<br>"
+    );
+
+    // Remove excessive consecutive <br>s.
+    safe = safe.replace(
+        /(?:<br>\s*){3,}/g,
+        "<br><br>"
+    );
+
+    return safe;
+}
+
+
+function addBotMessage(text){
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "message-row bot";
+
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message bot";
+
+
+    message.innerHTML =
+        formatAIResponse(text);
+
+
+    row.appendChild(
+        message
+    );
+
+
+    chatBody.insertBefore(
+        row,
+        typing
+    );
+
+
+    scrollToBottom();
+
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollToBottom(){
+
+    setTimeout(
+        function(){
+
+            chatBody.scrollTop =
+                chatBody.scrollHeight;
+
+        },
+        50
+    );
+
+}
+
+
+/* =========================================================
+   SHOW TYPING
+========================================================= */
+
+function showTyping(){
+
+    typing.style.display =
+        "block";
+
+    scrollToBottom();
+
+}
+
+
+/* =========================================================
+   HIDE TYPING
+========================================================= */
+
+function hideTyping(){
+
+    typing.style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+async function sendMessage(){
+
+    const text =
+        chatInput.value.trim();
+
+
+    if(!text){
+
+        return;
+
+    }
+
+
+    addUserMessage(text);
+
+    chatInput.value = "";
+
+    showTyping();
+
+    sendButton.disabled = true;
+    chatInput.disabled = true;
+
+
+    try{
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:5000/api/support/ask",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        message:text
+                    })
+                }
+            );
+
+
+        let data = {};
+
+        try{
+
+            data =
+                await response.json();
+
+        }
+        catch(error){
+
+            data = {};
+
+        }
+
+
+        hideTyping();
+
+
+        if(!response.ok){
+
+            addBotMessage(
+                data.message ||
+                "Sorry, something went wrong."
+            );
+
+            return;
+
+        }
+
+
+        addBotMessage(
+            data.answer ||
+            "Sorry, I couldn't generate a response."
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "AI Support Error:",
+            error
+        );
+
+
+        hideTyping();
+
+
+        addBotMessage(
+            "⚠️ I couldn't connect to the StudyAI AI service. " +
+            "Please make sure the backend server is running."
+        );
+
+    }
+    finally{
+
+        sendButton.disabled = false;
+        chatInput.disabled = false;
+
+        chatInput.focus();
+
+    }
+
+}
+
+
+/* =========================================================
+   ASK QUICK QUESTION
+========================================================= */
+
+function askQuestion(question){
+
+    chatInput.value =
+        question;
+
+    sendMessage();
+
+}
+
+
+/* =========================================================
+   DEMO AI RESPONSE
+========================================================= */
+
+function getDemoReply(question){
+
+    const q =
+        question
+            .toLowerCase()
+            .trim();
+
+
+    /* =====================================================
+       PDF UPLOAD
+    ===================================================== */
+
+    if(
+        q.includes("upload") &&
+        (
+            q.includes("pdf") ||
+            q.includes("material")
+        )
+    ){
+
+        return (
+            "To upload a PDF, open the Home page and " +
+            "use the Upload Study Material section. " +
+            "Click Browse PDF or drag and drop your PDF. " +
+            "The current maximum file size is 100 MB."
+        );
+
+    }
+
+
+    /* =====================================================
+       AI PLANNER
+    ===================================================== */
+
+    if(
+        q.includes("ai planner") ||
+        q.includes("planner")
+    ){
+
+        return (
+            "AI Planner is designed to create a " +
+            "personalized study schedule based on " +
+            "your learning goals and study material. " +
+            "The AI connection will be added later."
+        );
+
+    }
+
+
+    /* =====================================================
+       QUESTION GENERATOR
+    ===================================================== */
+
+    if(
+        q.includes("question generator") ||
+        q.includes("questions") ||
+        q.includes("question")
+    ){
+
+        return (
+            "AI Question Generator will create practice " +
+            "questions from your uploaded study material. " +
+            "The frontend is ready; the AI API will be " +
+            "connected later."
+        );
+
+    }
+
+
+    /* =====================================================
+       PROGRESS
+    ===================================================== */
+
+    if(
+        q.includes("progress") ||
+        q.includes("tracker")
+    ){
+
+        return (
+            "Progress Tracker is used to monitor your " +
+            "learning progress, study time and completed " +
+            "activities."
+        );
+
+    }
+
+
+    /* =====================================================
+       PASSWORD
+    ===================================================== */
+
+    if(
+        q.includes("password") ||
+        q.includes("forgot")
+    ){
+
+        return (
+            "If you forgot your password, open the Login " +
+            "page and select Forgot Password. Enter your " +
+            "registered Gmail address, verify the OTP, " +
+            "and then create a new password."
+        );
+
+    }
+
+
+    /* =====================================================
+       DASHBOARD
+    ===================================================== */
+
+    if(
+        q.includes("dashboard")
+    ){
+
+        return (
+            "The Dashboard shows your study materials, " +
+            "overall progress, study time and completed " +
+            "activities."
+        );
+
+    }
+
+
+    /* =====================================================
+       PROFILE
+    ===================================================== */
+
+    if(
+        q.includes("profile") ||
+        q.includes("account")
+    ){
+
+        return (
+            "You can open My Profile from the profile menu. " +
+            "It shows your StudyAI account information."
+        );
+
+    }
+
+
+    /* =====================================================
+       HELLO
+    ===================================================== */
+
+    if(
+        q === "hi" ||
+        q === "hello" ||
+        q === "hey" ||
+        q.includes("hi ")
+    ){
+
+        return (
+            "Hey! 👋 How can I help you with StudyAI?"
+        );
+
+    }
+
+
+    /* =====================================================
+       THANKS
+    ===================================================== */
+
+    if(
+        q.includes("thank")
+    ){
+
+        return (
+            "You're welcome! 😊 I'm here whenever you need help."
+        );
+
+    }
+
+
+    /* =====================================================
+       DEFAULT
+    ===================================================== */
+
+    return (
+        "I'm currently running in frontend demo mode, " +
+        "so I can answer common StudyAI support questions. " +
+        "Once we connect the AI API, I'll be able to " +
+        "understand and answer much more freely."
+    );
+
+}
+
+
+/* =========================================================
+   SEND BUTTON
+========================================================= */
+
+sendButton.addEventListener(
+    "click",
+    function(){
+
+        sendMessage();
+
+    }
+);
+
+
+/* =========================================================
+   ENTER KEY
+========================================================= */
+
+chatInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadProfile();
+
+scrollToBottom();
+
+</script>
+
+</body>
+
+</html>

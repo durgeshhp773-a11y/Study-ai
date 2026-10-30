@@ -1,0 +1,3134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StudyAI - Progress Tracker</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#171a2b;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:240px;
+    height:100vh;
+    background:#fff;
+    border-right:1px solid #e8eaf0;
+    padding:25px 18px;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 10px 30px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.logo-text{
+    font-size:21px;
+    font-weight:750;
+}
+
+.logo-text span{
+    color:#6366f1;
+}
+
+.side-title{
+    font-size:11px;
+    color:#9ca3af;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:0 12px;
+    margin-bottom:12px;
+}
+
+.side-menu{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.side-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:10px;
+    color:#6b7280;
+    text-decoration:none;
+    font-size:14px;
+    transition:.2s;
+}
+
+.side-item:hover,
+.side-item.active{
+    background:#eeedff;
+    color:#5b5ce2;
+}
+
+.side-item.active{
+    font-weight:600;
+}
+
+.side-icon{
+    width:20px;
+    text-align:center;
+    font-size:17px;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+    margin-left:240px;
+    min-height:100vh;
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar{
+    height:76px;
+    background:#fff;
+    border-bottom:1px solid #e8eaf0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 32px;
+}
+
+.top-nav{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.top-nav a{
+    text-decoration:none;
+    color:#606575;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:9px;
+    white-space:nowrap;
+}
+
+.top-nav a:hover,
+.top-nav a.active{
+    color:#5b5ce2;
+    background:#eeedff;
+}
+
+.top-nav a.active{
+    font-weight:600;
+}
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+.notification-btn{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    background:#f6f7fa;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-left:8px;
+    cursor:pointer;
+    text-decoration:none;
+    font-size:18px !important;
+    transition:.2s;
+}
+
+.notification-btn:hover{
+    background:#eeedff;
+}
+
+
+/* =====================================================
+   PROFILE BUTTON
+===================================================== */
+
+.profile{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        #6366f1,
+        #a855f7
+    );
+    color:white !important;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    margin-left:8px;
+    padding:0 !important;
+    font-size:13px !important;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.profile:hover{
+    transform:scale(1.05);
+}
+
+
+/* =====================================================
+   PROFILE OVERLAY
+===================================================== */
+
+.profile-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,18,35,.45);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:99999;
+    padding:20px;
+}
+
+.profile-overlay.show{
+    display:flex;
+}
+
+
+/* =====================================================
+   PROFILE MODAL
+===================================================== */
+
+.profile-modal{
+    width:400px;
+    max-width:100%;
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 20px 60px rgba(0,0,0,.18);
+    animation:modalAppear .2s ease;
+}
+
+@keyframes modalAppear{
+
+    from{
+        opacity:0;
+        transform:translateY(10px) scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+
+}
+
+.close-profile{
+    position:absolute;
+    top:14px;
+    right:15px;
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:8px;
+    background:#f5f6f8;
+    color:#777;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.close-profile:hover{
+    background:#eeedff;
+    color:#6366f1;
+}
+
+
+/* =====================================================
+   PROFILE ICON
+===================================================== */
+
+.profile-modal-icon{
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    background:#eeedff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    margin:0 auto 15px;
+}
+
+.profile-modal h2{
+    font-size:20px;
+    margin-bottom:7px;
+}
+
+.profile-modal > p{
+    color:#858a97;
+    font-size:12px;
+    line-height:1.6;
+    margin-bottom:22px;
+}
+
+
+/* =====================================================
+   USER INFO
+===================================================== */
+
+.user-info{
+    background:#f7f7ff;
+    border:1px solid #eeeeff;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:16px;
+    text-align:left;
+}
+
+.user-name{
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:3px;
+}
+
+.user-email{
+    font-size:10px;
+    color:#9297a4;
+}
+
+
+/* =====================================================
+   PROFILE ACTIONS
+===================================================== */
+
+.profile-actions{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.profile-action{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+    text-align:center;
+}
+
+.profile-action:hover{
+    transform:translateY(-1px);
+}
+
+
+/* PROFILE */
+
+.profile-action.profile-link{
+    background:#6366f1;
+    color:#fff;
+}
+
+.profile-action.profile-link:hover{
+    background:#4f46e5;
+}
+
+
+/* HELP */
+
+.profile-action.help-link{
+    background:#eeedff;
+    color:#5b5ce2;
+}
+
+.profile-action.help-link:hover{
+    background:#e2e1ff;
+}
+
+
+/* LOGOUT */
+
+.profile-action.logout-btn{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.profile-action.logout-btn:hover{
+    background:#fecaca;
+}
+
+
+/* LOGIN */
+
+.profile-action.login-btn{
+    background:#6366f1;
+    color:#fff;
+}
+
+.profile-action.login-btn:hover{
+    background:#4f46e5;
+}
+
+
+/* REGISTER */
+
+.profile-action.register-btn{
+    background:#eeedff;
+    color:#5b5ce2;
+}
+
+.profile-action.register-btn:hover{
+    background:#e2e1ff;
+}
+
+
+/* =====================================================
+   PROFILE NOTE
+===================================================== */
+
+.profile-note{
+    margin-top:18px;
+    padding-top:15px;
+    border-top:1px solid #eeeef2;
+    color:#9a9eaa;
+    font-size:10px;
+    line-height:1.5;
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content{
+    padding:35px 42px;
+    max-width:1400px;
+    margin:auto;
+}
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:29px;
+    margin-bottom:7px;
+}
+
+.page-header p{
+    color:#7b8190;
+    font-size:14px;
+}
+
+
+/* =====================================================
+   STAT CARDS
+===================================================== */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:20px;
+}
+
+.stat-card{
+    background:#fff;
+    border:1px solid #e7e9ef;
+    border-radius:15px;
+    padding:20px;
+}
+
+.stat-icon{
+    width:42px;
+    height:42px;
+    border-radius:11px;
+    background:#eeeeff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.stat-label{
+    color:#858a97;
+    font-size:12px;
+    margin-top:15px;
+}
+
+.stat-value{
+    font-size:25px;
+    font-weight:750;
+    margin-top:4px;
+}
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #e7e9ef;
+    border-radius:16px;
+    padding:23px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h2{
+    font-size:16px;
+}
+
+.card-header span{
+    color:#8a8f9d;
+    font-size:11px;
+}
+
+.reset-btn{
+    border:1px solid #e7e9ef;
+    background:#fff;
+    color:#6b7280;
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+    white-space:nowrap;
+}
+
+.reset-btn:hover{
+    background:#fff1f2;
+    border-color:#fecaca;
+    color:#dc2626;
+}
+
+.reset-all-btn{
+    border:none;
+    background:#fff1f2;
+    color:#dc2626;
+    padding:9px 13px;
+    border-radius:9px;
+    font-size:11px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.reset-all-btn:hover{
+    background:#fee2e2;
+}
+
+.page-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:-10px;
+    margin-bottom:18px;
+}
+
+.stat-card{
+    position:relative;
+}
+
+.stat-reset{
+    position:absolute;
+    right:14px;
+    top:14px;
+    padding:5px 8px;
+    font-size:9px;
+}
+
+@media(max-width:600px){
+    .page-actions{
+        justify-content:stretch;
+    }
+    .reset-all-btn{
+        width:100%;
+    }
+}
+
+
+/* =====================================================
+   OVERALL PROGRESS
+===================================================== */
+
+.overall{
+    display:flex;
+    align-items:center;
+    gap:35px;
+}
+
+.progress-circle{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:
+        conic-gradient(
+            #6366f1 0deg,
+            #eeeeff 0deg
+        );
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.progress-inner{
+    width:115px;
+    height:115px;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.progress-number{
+    font-size:27px;
+    font-weight:750;
+}
+
+.progress-label{
+    color:#9297a4;
+    font-size:10px;
+}
+
+.progress-info{
+    flex:1;
+}
+
+.progress-info h3{
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.progress-info p{
+    color:#8a8f9d;
+    font-size:12px;
+    line-height:1.6;
+}
+
+
+/* =====================================================
+   SUBJECT PROGRESS
+===================================================== */
+
+.subject{
+    margin-bottom:18px;
+}
+
+.subject:last-child{
+    margin-bottom:0;
+}
+
+.subject-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+}
+
+.subject-name{
+    font-size:12px;
+    font-weight:600;
+}
+
+.subject-percent{
+    font-size:11px;
+    color:#6366f1;
+}
+
+.progress-bar{
+    width:100%;
+    height:8px;
+    background:#eeeeff;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#6366f1;
+    border-radius:20px;
+    transition:width .5s;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    min-height:180px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.empty-icon{
+    width:55px;
+    height:55px;
+    border-radius:16px;
+    background:#eeeeff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:25px;
+    margin-bottom:13px;
+}
+
+.empty h3{
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.empty p{
+    color:#9297a4;
+    font-size:11px;
+    line-height:1.5;
+    max-width:330px;
+}
+
+.subject-empty{
+    min-height:180px;
+}
+
+
+/* =====================================================
+   WEEKLY CHART
+===================================================== */
+
+.week-chart{
+    height:220px;
+    display:flex;
+    align-items:flex-end;
+    gap:14px;
+    border-bottom:1px solid #eceef3;
+    padding:10px 5px 0;
+}
+
+.day-column{
+    flex:1;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    gap:8px;
+}
+
+.day-bar{
+    width:35px;
+    max-width:80%;
+    height:0%;
+    background:
+        linear-gradient(
+            180deg,
+            #818cf8,
+            #6366f1
+        );
+    border-radius:7px 7px 0 0;
+    transition:height .5s;
+}
+
+.day-label{
+    font-size:10px;
+    color:#9297a4;
+}
+
+
+/* =====================================================
+   ACTIVITY
+===================================================== */
+
+.activity-list{
+    display:none;
+    flex-direction:column;
+}
+
+.activity{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid #f0f1f4;
+}
+
+.activity:last-child{
+    border-bottom:none;
+}
+
+.activity-icon{
+    width:36px;
+    height:36px;
+    border-radius:9px;
+    background:#f0f1ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.activity-info{
+    flex:1;
+}
+
+.activity-info h4{
+    font-size:11px;
+    margin-bottom:3px;
+}
+
+.activity-info p{
+    font-size:9px;
+    color:#969aa6;
+}
+
+.activity-time{
+    font-size:9px;
+    color:#aaaeba;
+}
+
+
+/* =====================================================
+   LOGIN STATUS
+===================================================== */
+
+.login-status{
+    display:none;
+    margin-top:20px;
+    padding:14px;
+    border-radius:12px;
+    background:#f0f0ff;
+    color:#5b5ce2;
+    font-size:11px;
+    text-align:center;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:70px;
+        padding:20px 10px;
+    }
+
+    .logo{
+        justify-content:center;
+        padding:5px 0 30px;
+    }
+
+    .logo-text,
+    .side-title,
+    .side-item span:not(.side-icon){
+        display:none;
+    }
+
+    .side-item{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        overflow-x:auto;
+        justify-content:flex-start;
+        padding:0 15px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .content{
+        padding:22px 15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .page-header h1{
+        font-size:24px;
+    }
+
+    .overall{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .profile{
+        display:flex !important;
+    }
+
+    .top-nav a{
+        font-size:12px;
+        padding:9px 10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <img
+                src="logo.jpeg"
+                alt="StudyAI Logo">
+
+        </div>
+
+        <div class="logo-text">
+
+            Study<span>AI</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="side-title">
+        Workspace
+    </div>
+
+
+    <nav class="side-menu">
+
+
+        <a
+            href="index.html"
+            class="side-item">
+
+            <span class="side-icon">
+                ⌂
+            </span>
+
+            <span>
+                Home
+            </span>
+
+        </a>
+
+
+        <a
+            href="dashboard.html"
+            class="side-item">
+
+            <span class="side-icon">
+                ▦
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a
+            href="aiplan.html"
+            class="side-item">
+
+            <span class="side-icon">
+                ✦
+            </span>
+
+            <span>
+                AI Planner
+            </span>
+
+        </a>
+
+
+        <a
+            href="aiquestG.html"
+            class="side-item">
+
+            <span class="side-icon">
+                ?
+            </span>
+
+            <span>
+                AI Question Generator
+            </span>
+
+        </a>
+
+
+        <a
+            href="progress.html"
+            class="side-item active">
+
+            <span class="side-icon">
+                ◔
+            </span>
+
+            <span>
+                Progress Tracker
+            </span>
+
+        </a>
+
+
+    </nav>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- =================================================
+         TOPBAR
+    ================================================= -->
+
+    <header class="topbar">
+
+        <nav class="top-nav">
+
+
+            <a href="index.html">
+                Home
+            </a>
+
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+
+            <a href="aiplan.html">
+                AI Planner
+            </a>
+
+
+            <a href="aiquestG.html">
+                AI Question Generator
+            </a>
+
+
+            <a
+                href="progress.html"
+                class="active">
+
+                Progress Tracker
+
+            </a>
+
+
+            <a
+                href="notifications.html"
+                class="notification-btn"
+                title="Notifications & Reminders">
+
+                🔔
+
+            </a>
+
+
+            <a
+                href="#"
+                class="profile"
+                id="profileBtn">
+
+                U
+
+            </a>
+
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =================================================
+         CONTENT
+    ================================================= -->
+
+    <section class="content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <h1>
+                Progress Tracker 📊
+            </h1>
+
+            <p>
+                Track your learning progress, study time
+                and performance.
+            </p>
+
+        </div>
+
+
+        <div class="page-actions">
+            <button
+                type="button"
+                class="reset-all-btn"
+                id="resetAllProgressBtn">
+                🗑 Reset All Progress
+            </button>
+        </div>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <div class="stats">
+
+
+            <div class="stat-card">
+
+                <button
+                    type="button"
+                    class="reset-btn stat-reset"
+                    onclick="resetProgressSection('materialsCompleted')">
+                    Reset
+                </button>
+
+                <div class="stat-icon">
+                    📚
+                </div>
+
+                <div class="stat-label">
+                    Materials Completed
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="materialsCompleted">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <button
+                    type="button"
+                    class="reset-btn stat-reset"
+                    onclick="resetProgressSection('studyTimeMinutes')">
+                    Reset
+                </button>
+
+                <div class="stat-icon">
+                    ⏱️
+                </div>
+
+                <div class="stat-label">
+                    Total Study Time
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="studyTime">
+
+                    0h 0m
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <button
+                    type="button"
+                    class="reset-btn stat-reset"
+                    onclick="resetProgressSection('questionsSolved')">
+                    Reset
+                </button>
+
+                <div class="stat-icon">
+                    ❓
+                </div>
+
+                <div class="stat-label">
+                    Questions Solved
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="questionsSolved">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <button
+                    type="button"
+                    class="reset-btn stat-reset"
+                    onclick="resetProgressSection('goalsCompleted')">
+                    Reset
+                </button>
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <div class="stat-label">
+                    Goals Completed
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="goalsCompleted">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             OVERALL + SUBJECTS
+        ================================================= -->
+
+        <div class="grid">
+
+
+            <!-- OVERALL -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Overall Progress
+                    </h2>
+
+                    <span>
+                        Current
+                    </span>
+
+                </div>
+
+
+                <div class="overall">
+
+
+                    <div
+                        class="progress-circle"
+                        id="progressCircle">
+
+
+                        <div class="progress-inner">
+
+
+                            <div
+                                class="progress-number"
+                                id="progressNumber">
+
+                                0%
+
+                            </div>
+
+
+                            <div class="progress-label">
+
+                                Completed
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="progress-info">
+
+
+                        <h3 id="progressHeading">
+
+                            Start your learning 🚀
+
+                        </h3>
+
+
+                        <p id="progressDescription">
+
+                            Your overall progress will be
+                            calculated from completed study
+                            materials, questions, goals and
+                            learning activities.
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div
+                    class="login-status"
+                    id="loginStatus">
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- SUBJECTS -->
+
+            <div class="card">
+
+
+                <div class="card-header">
+
+                    <h2>
+                        Subject Progress
+                    </h2>
+
+                    <button
+                        type="button"
+                        class="reset-btn"
+                        onclick="resetProgressSection('subjects')">
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="empty subject-empty"
+                    id="subjectEmpty">
+
+
+                    <div class="empty-icon">
+                        📖
+                    </div>
+
+
+                    <h3>
+                        No subjects yet
+                    </h3>
+
+
+                    <p>
+
+                        Subjects will appear here after
+                        you upload your study material.
+
+                    </p>
+
+
+                </div>
+
+
+                <div
+                    id="subjectList"
+                    style="display:none;">
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             WEEKLY ACTIVITY
+        ================================================= -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <h2>
+                    📈 Weekly Study Activity
+                </h2>
+
+                <button
+                    type="button"
+                    class="reset-btn"
+                    onclick="resetProgressSection('weeklyActivity')">
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div class="week-chart">
+
+
+                <div class="day-column">
+
+                    <div
+                        class="day-bar"
+                        id="barMon">
+                    </div>
+
+                    <div class="day-label">
+                        Mon
+                    </div>
+
+                </div>
+
+
+                <div class="day-column">
+
+                    <div
+                        class="day-bar"
+                        id="barTue">
+                    </div>
+
+                    <div class="day-label">
+                        Tue
+                    </div>
+
+                </div>
+
+
+                <div class="day-column">
+
+                    <div
+                        class="day-bar"
+                        id="barWed">
+                    </div>
+
+                    <div class="day-label">
+                        Wed
+                    </div>
+
+                </div>
+
+
+                <div class="day-column">
+
+                    <div
+                        class="day-bar"
+                        id="barThu">
+                    </div>
+
+                    <div class="day-label">
+                        Thu
+                    </div>
+
+                </div>
+
+
+                <div class="day-column">
+
+                    <div
+                        class="day-bar"
+                        id="barFri">
+                    </div>
+
+                    <div class="day-label">
+                        Fri
+                    </div>
+
+                </div>
+
+
+                <div class="day-column">
+
+                    <div
+                        class="day-bar"
+                        id="barSat">
+                    </div>
+
+                    <div class="day-label">
+                        Sat
+                    </div>
+
+                </div>
+
+
+                <div class="day-column">
+
+                    <div
+                        class="day-bar"
+                        id="barSun">
+                    </div>
+
+                    <div class="day-label">
+                        Sun
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <br>
+
+
+
+        <!-- =================================================
+             LEARNING ACTIVITY
+        ================================================= -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <h2>
+                    📝 Learning Activity
+                </h2>
+
+                <button
+                    type="button"
+                    class="reset-btn"
+                    onclick="resetProgressSection('activities')">
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div
+                class="empty"
+                id="activityEmpty">
+
+
+                <div class="empty-icon">
+                    📊
+                </div>
+
+
+                <h3>
+                    No learning activity yet
+                </h3>
+
+
+                <p>
+
+                    Start studying, complete questions and
+                    follow your AI study plan to see your
+                    learning activity here.
+
+                </p>
+
+
+            </div>
+
+
+            <div
+                class="activity-list"
+                id="activityList">
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     PROFILE POPUP
+===================================================== -->
+
+<div
+    class="profile-overlay"
+    id="profileOverlay">
+
+
+    <div class="profile-modal">
+
+
+        <button
+            class="close-profile"
+            id="closeProfile"
+            type="button">
+
+            ×
+
+        </button>
+
+
+        <div class="profile-modal-icon">
+            👤
+        </div>
+
+
+        <h2 id="profileTitle">
+            Welcome to StudyAI
+        </h2>
+
+
+        <p id="profileDescription">
+            Login or create an account to access your
+            personalized study dashboard.
+        </p>
+
+
+        <!-- LOGGED-IN USER -->
+
+        <div
+            class="user-info"
+            id="userInfo"
+            style="display:none;">
+
+            <div
+                class="user-name"
+                id="userName">
+
+            </div>
+
+            <div
+                class="user-email"
+                id="userEmail">
+
+            </div>
+
+        </div>
+
+
+        <!-- LOGGED-IN ACTIONS -->
+
+        <div
+            class="profile-actions"
+            id="loggedInActions"
+            style="display:none;">
+
+
+            <a
+                href="profile.html"
+                class="profile-action profile-link">
+
+                👤 Profile
+
+            </a>
+
+
+            <a
+                href="help.html"
+                class="profile-action help-link">
+
+                ❓ Help & Support
+
+            </a>
+
+
+            <button
+                type="button"
+                class="profile-action logout-btn"
+                id="logoutBtn">
+
+                🚪 Logout
+
+            </button>
+
+
+        </div>
+
+
+        <!-- LOGGED-OUT ACTIONS -->
+
+        <div
+            class="profile-actions"
+            id="loggedOutActions">
+
+
+            <a
+                href="login.html"
+                class="profile-action login-btn">
+
+                Login
+
+            </a>
+
+
+            <a
+                href="register.html"
+                class="profile-action register-btn">
+
+                Create Account
+
+            </a>
+
+
+        </div>
+
+
+        <div class="profile-note">
+
+            Your study plans, progress and reminders
+            will be saved to your account.
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   DEFAULT PROGRESS DATA
+===================================================== */
+
+const defaultProgress = {
+
+    materialsCompleted:0,
+
+    studyTimeMinutes:0,
+
+    questionsSolved:0,
+
+    goalsCompleted:0,
+
+    overallProgress:0,
+
+    subjects:[],
+
+    weeklyActivity:[
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+
+    activities:[]
+
+};
+
+
+/* =====================================================
+   GET PROGRESS DATA
+===================================================== */
+
+async function getProgressData(){
+
+    const defaultData = {
+        ...defaultProgress,
+        weeklyActivity: [0,0,0,0,0,0,0],
+        subjects: [],
+        activities: []
+    };
+
+    const user = getUser();
+
+    if(!user || !user.email){
+        return defaultData;
+    }
+
+    try{
+
+        // ==============================
+        // 1. MAIN PROGRESS API
+        // ==============================
+
+        const progressResponse = await fetch(
+            "http://127.0.0.1:5000/api/progress?user_email=" +
+            encodeURIComponent(user.email),
+            {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        const progressResult =
+            await progressResponse.json();
+
+        if(!progressResponse.ok){
+            throw new Error(
+                progressResult.message ||
+                progressResult.error ||
+                "Unable to load progress."
+            );
+        }
+
+        // Backend sends:
+        // { progress: {...} }
+
+        const serverData =
+            progressResult.progress ||
+            progressResult;
+
+
+        // ==============================
+        // 2. MATERIAL COUNT
+        // ==============================
+
+        let materialCount =
+            Number(
+                serverData.materialsCompleted || 0
+            );
+
+        try{
+
+            const materialResponse =
+                await fetch(
+                    "http://127.0.0.1:5000/api/materials?user_email=" +
+                    encodeURIComponent(user.email)
+                );
+
+            const materialResult =
+                await materialResponse.json();
+
+            if(
+                materialResponse.ok &&
+                Array.isArray(materialResult.materials)
+            ){
+                materialCount =
+                    materialResult.materials.length;
+            }
+
+        }catch(materialError){
+
+            console.warn(
+                "Material count error:",
+                materialError
+            );
+
+        }
+
+
+        // ==============================
+        // 3. STUDY TIME
+        // ==============================
+
+        let studyMinutes =
+            Number(
+                serverData.studyTimeMinutes || 0
+            );
+
+        try{
+
+            const timeResponse =
+                await fetch(
+                    "http://127.0.0.1:5000/api/study/time?user_email=" +
+                    encodeURIComponent(user.email)
+                );
+
+            const timeResult =
+                await timeResponse.json();
+
+            if(timeResponse.ok){
+
+                studyMinutes =
+                    Number(
+                        timeResult.minutes || 0
+                    );
+
+            }
+
+        }catch(timeError){
+
+            console.warn(
+                "Study time error:",
+                timeError
+            );
+
+        }
+
+
+        // ==============================
+        // 4. RETURN FINAL DATA
+        // ==============================
+
+        return {
+
+            ...defaultData,
+
+            ...serverData,
+
+            materialsCompleted:
+                materialCount,
+
+            studyTimeMinutes:
+                studyMinutes,
+
+            questionsSolved:
+                Number(
+                    serverData.questionsSolved || 0
+                ),
+
+            goalsCompleted:
+                Number(
+                    serverData.goalsCompleted || 0
+                ),
+
+            overallProgress:
+                Number(
+                    serverData.overallProgress || 0
+                ),
+
+            weeklyActivity:
+                Array.isArray(
+                    serverData.weeklyActivity
+                )
+                    ? serverData.weeklyActivity
+                    : defaultData.weeklyActivity,
+
+            subjects:
+                Array.isArray(
+                    serverData.subjects
+                )
+                    ? serverData.subjects
+                    : [],
+
+            activities:
+                Array.isArray(
+                    serverData.activities
+                )
+                    ? serverData.activities
+                    : []
+
+        };
+
+    }catch(error){
+
+        console.error(
+            "Progress API error:",
+            error
+        );
+
+        // Local fallback
+        const saved =
+            localStorage.getItem(
+                "studyAI_progress"
+            );
+
+        if(!saved){
+            return defaultData;
+        }
+
+        try{
+
+            return {
+                ...defaultData,
+                ...JSON.parse(saved)
+            };
+
+        }catch(localError){
+
+            return defaultData;
+
+        }
+
+    }
+
+}
+
+/* =====================================================
+   LOCAL PROGRESS RESET STATE
+   These controls reset the Progress Tracker view for the
+   current browser/user without deleting database records.
+===================================================== */
+
+function progressResetKey() {
+    const user = getUser();
+
+    return (
+        "studyAI_progress_resets_" +
+        (user && user.email
+            ? user.email.toLowerCase()
+            : "guest")
+    );
+}
+
+function getProgressResetState() {
+    try {
+        const saved = localStorage.getItem(
+            progressResetKey()
+        );
+
+        return saved ? JSON.parse(saved) : {};
+    } catch (error) {
+        return {};
+    }
+}
+
+function saveProgressResetState(state) {
+    localStorage.setItem(
+        progressResetKey(),
+        JSON.stringify(state)
+    );
+}
+
+function applyLocalProgressResets(data) {
+    const reset = getProgressResetState();
+
+    const result = {
+        ...data,
+        weeklyActivity: Array.isArray(data.weeklyActivity)
+            ? [...data.weeklyActivity]
+            : [],
+        subjects: Array.isArray(data.subjects)
+            ? [...data.subjects]
+            : [],
+        activities: Array.isArray(data.activities)
+            ? [...data.activities]
+            : []
+    };
+
+    if (reset.materialsCompleted) {
+        result.materialsCompleted = 0;
+    }
+
+    if (reset.studyTimeMinutes) {
+        result.studyTimeMinutes = 0;
+    }
+
+    if (reset.questionsSolved) {
+        result.questionsSolved = 0;
+    }
+
+    if (reset.goalsCompleted) {
+        result.goalsCompleted = 0;
+    }
+
+    if (reset.overallProgress) {
+        result.overallProgress = 0;
+    }
+
+    if (reset.subjects) {
+        result.subjects = [];
+    }
+
+    if (reset.weeklyActivity) {
+        result.weeklyActivity = [0,0,0,0,0,0,0];
+    }
+
+    if (reset.activities) {
+        result.activities = [];
+    }
+
+    return result;
+}
+
+async function refreshProgressView() {
+    const data = await getProgressData();
+
+    updateStats(data);
+    updateOverall(data);
+    renderSubjects(data);
+    renderWeeklyActivity(data);
+    renderActivities(data);
+}
+
+function resetProgressSection(section) {
+    const confirmed = confirm(
+        "Reset this Progress Tracker section?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const state = getProgressResetState();
+
+    state[section] = true;
+
+    saveProgressResetState(state);
+
+    refreshProgressView();
+
+    alert("This section has been reset.");
+}
+
+function resetAllProgress() {
+    const confirmed = confirm(
+        "Reset ALL Progress Tracker sections?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const state = {
+        materialsCompleted:true,
+        studyTimeMinutes:true,
+        questionsSolved:true,
+        goalsCompleted:true,
+        overallProgress:true,
+        subjects:true,
+        weeklyActivity:true,
+        activities:true
+    };
+
+    saveProgressResetState(state);
+
+    refreshProgressView();
+
+    alert(
+        "All Progress Tracker sections have been reset."
+    );
+}
+
+document
+    .getElementById("resetAllProgressBtn")
+    .addEventListener(
+        "click",
+        resetAllProgress
+    );
+
+
+/* =====================================================
+   GET USER
+===================================================== */
+
+function getUser(){
+
+    const savedUser =
+        localStorage.getItem(
+            "studyAI_user"
+        );
+
+
+    if(!savedUser){
+
+        return null;
+
+    }
+
+
+    try{
+
+        return JSON.parse(
+            savedUser
+        );
+
+    }
+    catch(error){
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================================
+   PROFILE INITIALS
+===================================================== */
+
+function getInitials(name){
+
+    if(!name){
+
+        return "U";
+
+    }
+
+
+    const words =
+        name
+        .trim()
+        .split(/\s+/);
+
+
+    if(words.length === 1){
+
+        return words[0]
+            .substring(0,2)
+            .toUpperCase();
+
+    }
+
+
+    return (
+
+        words[0].charAt(0) +
+
+        words[words.length - 1].charAt(0)
+
+    ).toUpperCase();
+
+}
+
+
+/* =====================================================
+   LOAD PROFILE
+===================================================== */
+
+function loadProfile(){
+
+    const user =
+        getUser();
+
+
+    const profileBtn =
+        document.getElementById(
+            "profileBtn"
+        );
+
+
+    const profileTitle =
+        document.getElementById(
+            "profileTitle"
+        );
+
+
+    const profileDescription =
+        document.getElementById(
+            "profileDescription"
+        );
+
+
+    const userInfo =
+        document.getElementById(
+            "userInfo"
+        );
+
+
+    const userName =
+        document.getElementById(
+            "userName"
+        );
+
+
+    const userEmail =
+        document.getElementById(
+            "userEmail"
+        );
+
+
+    const loggedInActions =
+        document.getElementById(
+            "loggedInActions"
+        );
+
+
+    const loggedOutActions =
+        document.getElementById(
+            "loggedOutActions"
+        );
+
+
+    const loginStatus =
+        document.getElementById(
+            "loginStatus"
+        );
+
+
+    if(!user){
+
+        profileBtn.textContent =
+            "U";
+
+
+        userInfo.style.display =
+            "none";
+
+
+        loggedInActions.style.display =
+            "none";
+
+
+        loggedOutActions.style.display =
+            "flex";
+
+
+        return;
+
+    }
+
+
+    profileBtn.textContent =
+        getInitials(
+            user.name
+        );
+
+
+    profileTitle.textContent =
+        "Welcome, " +
+        user.name;
+
+
+    profileDescription.textContent =
+        "Manage your StudyAI account and learning preferences.";
+
+
+    userInfo.style.display =
+        "block";
+
+
+    userName.textContent =
+        user.name || "StudyAI User";
+
+
+    userEmail.textContent =
+        user.email || "";
+
+
+    loggedInActions.style.display =
+        "flex";
+
+
+    loggedOutActions.style.display =
+        "none";
+
+
+    loginStatus.style.display =
+        "block";
+
+
+    loginStatus.textContent =
+        "✓ Logged in as " +
+        (user.email || user.name);
+
+}
+
+
+/* =====================================================
+   UPDATE STATS
+===================================================== */
+
+function updateStats(data){
+
+    document.getElementById(
+        "materialsCompleted"
+    ).textContent =
+        data.materialsCompleted || 0;
+
+
+    document.getElementById(
+        "questionsSolved"
+    ).textContent =
+        data.questionsSolved || 0;
+
+
+    document.getElementById(
+        "goalsCompleted"
+    ).textContent =
+        data.goalsCompleted || 0;
+
+
+    const minutes =
+        Number(
+            data.studyTimeMinutes || 0
+        );
+
+
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+
+    const remainingMinutes =
+        minutes % 60;
+
+
+    document.getElementById(
+        "studyTime"
+    ).textContent =
+
+        hours +
+        "h " +
+        remainingMinutes +
+        "m";
+
+}
+
+
+/* =====================================================
+   OVERALL PROGRESS
+===================================================== */
+
+function updateOverall(data){
+
+    let progress =
+        Number(
+            data.overallProgress || 0
+        );
+
+
+    progress =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                progress
+            )
+        );
+
+
+    const degrees =
+        progress * 3.6;
+
+
+    document.getElementById(
+        "progressCircle"
+    ).style.background =
+
+        `
+        conic-gradient(
+            #6366f1 ${degrees}deg,
+            #eeeeff ${degrees}deg
+        )
+        `;
+
+
+    document.getElementById(
+        "progressNumber"
+    ).textContent =
+        progress + "%";
+
+
+    const heading =
+        document.getElementById(
+            "progressHeading"
+        );
+
+
+    const description =
+        document.getElementById(
+            "progressDescription"
+        );
+
+
+    if(progress === 0){
+
+        heading.textContent =
+            "Start your learning 🚀";
+
+
+        description.textContent =
+            "Your overall progress will be calculated as you study, complete questions, finish goals and use your StudyAI tools.";
+
+    }
+
+    else if(progress < 50){
+
+        heading.textContent =
+            "Good start! Keep going 💪";
+
+
+        description.textContent =
+            "You have started your learning journey. Stay consistent to improve your progress.";
+
+    }
+
+    else if(progress < 80){
+
+        heading.textContent =
+            "You're doing great! 🔥";
+
+
+        description.textContent =
+            "More than half of your learning journey is complete. Keep the momentum going.";
+
+    }
+
+    else if(progress < 100){
+
+        heading.textContent =
+            "Almost there! 🚀";
+
+
+        description.textContent =
+            "You're very close to completing your current learning goals.";
+
+    }
+
+    else{
+
+        heading.textContent =
+            "Amazing work! 🎉";
+
+
+        description.textContent =
+            "You have completed your current learning progress.";
+
+    }
+
+}
+
+
+/* =====================================================
+   SUBJECTS
+===================================================== */
+
+function renderSubjects(data){
+
+    const subjectEmpty =
+        document.getElementById(
+            "subjectEmpty"
+        );
+
+
+    const subjectList =
+        document.getElementById(
+            "subjectList"
+        );
+
+
+    const subjectCount =
+        document.getElementById(
+            "subjectCount"
+        );
+
+
+    const subjects =
+        Array.isArray(
+            data.subjects
+        )
+            ? data.subjects
+            : [];
+
+
+    subjectCount.textContent =
+
+        subjects.length +
+
+        (
+            subjects.length === 1
+                ? " Subject"
+                : " Subjects"
+        );
+
+
+    if(subjects.length === 0){
+
+        subjectEmpty.style.display =
+            "flex";
+
+
+        subjectList.style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    subjectEmpty.style.display =
+        "none";
+
+
+    subjectList.style.display =
+        "block";
+
+
+    subjectList.innerHTML =
+        "";
+
+
+    subjects.forEach(
+        function(subject){
+
+            const percent =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        Number(
+                            subject.progress || 0
+                        )
+                    )
+                );
+
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "subject";
+
+
+            wrapper.innerHTML = `
+
+                <div class="subject-top">
+
+                    <span class="subject-name">
+
+                        ${escapeHTML(
+                            subject.name || "Subject"
+                        )}
+
+                    </span>
+
+
+                    <span class="subject-percent">
+
+                        ${percent}%
+
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:${percent}%">
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            subjectList.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   WEEKLY ACTIVITY
+===================================================== */
+
+function renderWeeklyActivity(data){
+
+    const bars = [
+
+        "barMon",
+        "barTue",
+        "barWed",
+        "barThu",
+        "barFri",
+        "barSat",
+        "barSun"
+
+    ];
+
+
+    const values =
+        Array.isArray(
+            data.weeklyActivity
+        )
+            ? data.weeklyActivity
+            : [0,0,0,0,0,0,0];
+
+
+    const max =
+        Math.max(
+            ...values,
+            1
+        );
+
+
+    bars.forEach(
+        function(id,index){
+
+            const value =
+                Number(
+                    values[index] || 0
+                );
+
+
+            const height =
+                value === 0
+
+                    ? 0
+
+                    : Math.max(
+                        8,
+                        (value / max) * 100
+                    );
+
+
+            document.getElementById(
+                id
+            ).style.height =
+                height + "%";
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   LEARNING ACTIVITY
+===================================================== */
+
+function renderActivities(data){
+
+    const empty =
+        document.getElementById(
+            "activityEmpty"
+        );
+
+
+    const list =
+        document.getElementById(
+            "activityList"
+        );
+
+
+    const activities =
+        Array.isArray(
+            data.activities
+        )
+            ? data.activities
+            : [];
+
+
+    if(activities.length === 0){
+
+        empty.style.display =
+            "flex";
+
+
+        list.style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    empty.style.display =
+        "none";
+
+
+    list.style.display =
+        "flex";
+
+
+    list.innerHTML =
+        "";
+
+
+    activities.forEach(
+        function(activity){
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "activity";
+
+
+            item.innerHTML = `
+
+                <div class="activity-icon">
+
+                    ${activity.icon || "📚"}
+
+                </div>
+
+
+                <div class="activity-info">
+
+                    <h4>
+
+                        ${escapeHTML(
+                            activity.title || "Learning Activity"
+                        )}
+
+                    </h4>
+
+
+                    <p>
+
+                        ${escapeHTML(
+                            activity.description || ""
+                        )}
+
+                    </p>
+
+                </div>
+
+
+                <div class="activity-time">
+
+                    ${escapeHTML(
+                        activity.time || ""
+                    )}
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(text){
+
+    return String(text)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   PROFILE POPUP
+===================================================== */
+
+const profileBtn =
+    document.getElementById(
+        "profileBtn"
+    );
+
+
+const profileOverlay =
+    document.getElementById(
+        "profileOverlay"
+    );
+
+
+const closeProfile =
+    document.getElementById(
+        "closeProfile"
+    );
+
+
+profileBtn.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+
+
+        loadProfile();
+
+
+        profileOverlay.classList.add(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CLOSE PROFILE
+===================================================== */
+
+closeProfile.addEventListener(
+    "click",
+    function(){
+
+        profileOverlay.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CLICK OUTSIDE
+===================================================== */
+
+profileOverlay.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            profileOverlay
+        ){
+
+            profileOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESC KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            profileOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document.getElementById(
+    "logoutBtn"
+).addEventListener(
+    "click",
+    function(){
+
+        const confirmLogout =
+            confirm(
+                "Are you sure you want to logout?"
+            );
+
+
+        if(!confirmLogout){
+
+            return;
+
+        }
+
+
+        localStorage.removeItem(
+            "studyAI_user"
+        );
+
+
+        profileOverlay.classList.remove(
+            "show"
+        );
+
+
+        loadProfile();
+
+
+        alert(
+            "You have been logged out successfully."
+        );
+
+    }
+);
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+async function initializeProgressPage(){
+
+    const data = await getProgressData();
+
+    updateStats(data);
+    updateOverall(data);
+    renderSubjects(data);
+    renderWeeklyActivity(data);
+    renderActivities(data);
+    loadProfile();
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+initializeProgressPage();
+
+setInterval(async function(){
+    if(document.visibilityState !== "visible") return;
+    const data=await getProgressData();
+    updateStats(data);
+    updateOverall(data);
+    renderSubjects(data);
+    renderWeeklyActivity(data);
+    renderActivities(data);
+},30000);
+
+</script>
+
+
+</body>
+
+</html>

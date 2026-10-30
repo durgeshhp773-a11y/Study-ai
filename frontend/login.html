@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StudyAI - Login</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+    min-height:100vh;
+    background:#f5f7fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container{
+    width:100%;
+    max-width:430px;
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.logo-text{
+    font-size:23px;
+    font-weight:750;
+}
+
+.logo-text span{
+    color:#6366f1;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card{
+    background:#fff;
+    border:1px solid #e7e9ef;
+    border-radius:20px;
+    padding:32px;
+    box-shadow:0 15px 45px rgba(0,0,0,.06);
+}
+
+
+/* =====================================================
+   HEADING
+===================================================== */
+
+h1{
+    font-size:23px;
+    text-align:center;
+    margin-bottom:7px;
+}
+
+.subtitle{
+    color:#858a97;
+    font-size:12px;
+    text-align:center;
+    line-height:1.5;
+    margin-bottom:25px;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group{
+    margin-bottom:16px;
+}
+
+label{
+    display:block;
+    font-size:11px;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #dfe2ea;
+    border-radius:9px;
+    outline:none;
+    font-size:12px;
+    transition:.2s;
+}
+
+input:focus{
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px rgba(99,102,241,.08);
+}
+
+
+/* =====================================================
+   PASSWORD
+===================================================== */
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:45px;
+}
+
+.show-password{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:15px;
+}
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+.forgot-password-wrapper{
+    text-align:right;
+    margin-top:-8px;
+    margin-bottom:17px;
+}
+
+.forgot-password{
+    color:#6366f1;
+    font-size:11px;
+    font-weight:600;
+    text-decoration:none;
+    transition:.2s;
+}
+
+.forgot-password:hover{
+    color:#4f46e5;
+    text-decoration:underline;
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
+
+.login-btn{
+    width:100%;
+    border:none;
+    background:#6366f1;
+    color:white;
+    padding:13px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    margin-top:5px;
+    transition:.2s;
+}
+
+.login-btn:hover{
+    background:#4f46e5;
+}
+
+.login-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.admin-login-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:12px;
+    border:1px solid #dfe2ea;
+    border-radius:10px;
+    background:#f8f8ff;
+    color:#5b5ce2;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:600;
+    margin-top:12px;
+    transition:.2s;
+}
+.admin-login-btn:hover{
+    background:#eeedff;
+    border-color:#c7c9d9;
+    transform:translateY(-1px);
+}
+
+.message{
+    display:none;
+    margin-bottom:15px;
+    padding:10px;
+    border-radius:8px;
+    font-size:11px;
+    text-align:center;
+    line-height:1.5;
+}
+
+.error{
+    display:block;
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.success{
+    display:block;
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+
+/* =====================================================
+   REGISTER LINK
+===================================================== */
+
+.register-link{
+    text-align:center;
+    margin-top:20px;
+    font-size:11px;
+    color:#858a97;
+}
+
+.register-link a{
+    color:#6366f1;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.register-link a:hover{
+    text-decoration:underline;
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+.back{
+    display:block;
+    text-align:center;
+    margin-top:18px;
+    color:#9297a4;
+    font-size:11px;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#6366f1;
+}
+
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:20px 0;
+    color:#9ca3af;
+    font-size:11px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#e5e7eb;
+}
+
+
+/* =====================================================
+   GOOGLE BUTTON
+===================================================== */
+
+.google-btn{
+    width:100%;
+    height:46px;
+    border:1px solid #dfe2ea;
+    border-radius:10px;
+    background:#fff;
+    color:#30313d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.google-btn:hover{
+    background:#f8f8ff;
+    border-color:#c7c9d9;
+    transform:translateY(-1px);
+}
+
+.google-icon{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    font-weight:700;
+    color:#4285f4;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:500px){
+
+    body{
+        padding:15px;
+    }
+
+    .card{
+        padding:25px 20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     CONTAINER
+===================================================== -->
+
+<div class="container">
+
+
+    <!-- =================================================
+         LOGO
+    ================================================= -->
+
+    <div class="logo">
+
+
+        <div class="logo-icon">
+
+            <img
+                src="logo.jpeg"
+                alt="StudyAI Logo">
+
+        </div>
+
+
+        <div class="logo-text">
+
+            Study<span>AI</span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         LOGIN CARD
+    ================================================= -->
+
+    <div class="card">
+
+
+        <h1>
+            Welcome back
+        </h1>
+
+
+        <p class="subtitle">
+
+            Login to continue your personalized
+            learning journey.
+
+        </p>
+
+
+
+        <!-- =================================================
+             MESSAGE
+        ================================================= -->
+
+        <div
+            id="message"
+            class="message">
+
+        </div>
+
+
+
+        <!-- =================================================
+             LOGIN FORM
+        ================================================= -->
+
+        <form id="loginForm">
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+
+                <label>
+                    Email Address
+                </label>
+
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required>
+
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+
+                <label>
+                    Password
+                </label>
+
+
+                <div class="password-box">
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword()">
+
+                        👁
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FORGOT PASSWORD
+            ================================================= -->
+
+            <div class="forgot-password-wrapper">
+
+                <a
+                    href="forgot-password.html"
+                    class="forgot-password">
+
+                    Forgot Password?
+
+                </a>
+
+            </div>
+
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginButton">
+
+                Login
+
+            </button>
+
+            <a
+                href="admin-login.html"
+                class="admin-login-btn">
+
+                🛡️ Login as Admin
+
+            </a>
+
+
+
+            <!-- DIVIDER -->
+
+            <div class="divider">
+
+                <span>
+                    OR
+                </span>
+
+            </div>
+
+
+
+            <!-- GOOGLE -->
+
+            <button
+                type="button"
+                class="google-btn"
+                onclick="googleLogin()">
+
+
+                <span class="google-icon">
+                    G
+                </span>
+
+
+                Continue with Google
+
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- =================================================
+             REGISTER
+        ================================================= -->
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a href="register.html">
+
+                Create Account
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BACK HOME
+        ================================================= -->
+
+        <a
+            href="index.html"
+            class="back">
+
+            ← Back to Home
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   BACKEND API
+===================================================== */
+
+const API_URL =
+    "http://localhost:5000/api/auth";
+
+
+/* =====================================================
+   PASSWORD TOGGLE
+===================================================== */
+
+function togglePassword(){
+
+    const input =
+        document.getElementById(
+            "password"
+        );
+
+
+    if(input.type === "password"){
+
+        input.type = "text";
+
+    }
+    else{
+
+        input.type = "password";
+
+    }
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type
+){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        text;
+
+
+    message.className =
+        "message " + type;
+
+}
+
+
+/* =====================================================
+   LOGIN FORM
+===================================================== */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        async function(event){
+
+            event.preventDefault();
+
+
+            /* =========================================
+               GET INPUTS
+            ========================================= */
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            const loginButton =
+                document
+                    .getElementById("loginButton");
+
+
+            /* =========================================
+               CLEAR OLD MESSAGE
+            ========================================= */
+
+            const message =
+                document
+                    .getElementById("message");
+
+
+            message.className =
+                "message";
+
+
+            message.textContent =
+                "";
+
+
+            /* =========================================
+               VALIDATION
+            ========================================= */
+
+            if(!email){
+
+                showMessage(
+                    "Please enter your email address.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if(!password){
+
+                showMessage(
+                    "Please enter your password.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /* =========================================
+               BUTTON LOADING
+            ========================================= */
+
+            loginButton.disabled =
+                true;
+
+
+            loginButton.textContent =
+                "Logging in...";
+
+
+            try{
+
+
+                /* =====================================
+                   SEND LOGIN REQUEST TO BACKEND
+                ===================================== */
+
+                const response =
+                    await fetch(
+                        `${API_URL}/login`,
+                        {
+
+                            method:"POST",
+
+                            headers:{
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    email:
+                                        email,
+
+                                    password:
+                                        password
+
+                                })
+
+                        }
+                    );
+
+
+                /* =====================================
+                   READ RESPONSE
+                ===================================== */
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Login response:",
+                    data
+                );
+
+
+                /* =====================================
+                   LOGIN FAILED
+                ===================================== */
+
+                if(!response.ok){
+
+                    showMessage(
+
+                        data.message ||
+                        "Invalid email or password.",
+
+                        "error"
+
+                    );
+
+
+                    loginButton.disabled =
+                        false;
+
+
+                    loginButton.textContent =
+                        "Login";
+
+
+                    return;
+
+                }
+
+
+                /* =====================================
+                   CHECK RESPONSE
+                ===================================== */
+
+                if(
+                    !data.token ||
+                    !data.user
+                ){
+
+                    showMessage(
+                        "Invalid server response.",
+                        "error"
+                    );
+
+
+                    loginButton.disabled =
+                        false;
+
+
+                    loginButton.textContent =
+                        "Login";
+
+
+                    return;
+
+                }
+
+
+                /* =====================================
+                   SAVE TOKEN
+                ===================================== */
+
+                localStorage.setItem(
+
+                    "studyAI_token",
+
+                    data.token
+
+                );
+
+
+                /* =====================================
+                   SAVE USER DATA
+
+                   PASSWORD KABHI SAVE NAHI KARNA
+                ===================================== */
+
+                localStorage.setItem(
+
+                    "studyAI_user",
+
+                    JSON.stringify({
+
+                        id:
+                            data.user.id,
+
+                        name:
+                            data.user.name,
+
+                        email:
+                            data.user.email,
+
+                        role:
+                            data.user.role ||
+                            "client"
+
+                    })
+
+                );
+
+
+                /* =====================================
+                   LOGIN STATUS
+                ===================================== */
+
+                localStorage.setItem(
+
+                    "studyAI_loggedIn",
+
+                    "true"
+
+                );
+
+
+                /* =====================================
+                   SUCCESS MESSAGE
+                ===================================== */
+
+                showMessage(
+
+                    "Login successful! 🎉",
+
+                    "success"
+
+                );
+
+
+                /* =====================================
+                   REDIRECT
+                ===================================== */
+
+                setTimeout(
+
+                    function(){
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    },
+
+                    800
+
+                );
+
+
+            }
+            catch(error){
+
+
+                /* =====================================
+                   NETWORK ERROR
+                ===================================== */
+
+                console.error(
+                    "Login Error:",
+                    error
+                );
+
+
+                showMessage(
+
+                    "Unable to connect to StudyAI server. Make sure the backend is running.",
+
+                    "error"
+
+                );
+
+
+                loginButton.disabled =
+                    false;
+
+
+                loginButton.textContent =
+                    "Login";
+
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   GOOGLE LOGIN
+===================================================== */
+
+let googleReady = false;
+
+async function loadGoogleIdentityServices(){
+
+    if(googleReady && window.google && google.accounts){
+        return true;
+    }
+
+    const response = await fetch(
+        `${API_URL}/google-config`
+    );
+
+    const config = await response.json();
+
+    if(
+        !response.ok ||
+        !config.client_id
+    ){
+        throw new Error(
+            config.message ||
+            "Google Login is not configured."
+        );
+    }
+
+    window.STUDYAI_GOOGLE_CLIENT_ID =
+        config.client_id;
+
+    await new Promise(
+        function(resolve, reject){
+
+            if(
+                document.getElementById(
+                    "google-gsi-script"
+                )
+            ){
+
+                const waitForGoogle =
+                    setInterval(
+                        function(){
+
+                            if(
+                                window.google &&
+                                window.google.accounts
+                            ){
+
+                                clearInterval(
+                                    waitForGoogle
+                                );
+
+                                resolve();
+
+                            }
+
+                        },
+                        50
+                    );
+
+                setTimeout(
+                    function(){
+
+                        clearInterval(
+                            waitForGoogle
+                        );
+
+                        reject(
+                            new Error(
+                                "Google Identity Services failed to load."
+                            )
+                        );
+
+                    },
+                    8000
+                );
+
+                return;
+            }
+
+            const script =
+                document.createElement("script");
+
+            script.id =
+                "google-gsi-script";
+
+            script.src =
+                "https://accounts.google.com/gsi/client";
+
+            script.async = true;
+            script.defer = true;
+
+            script.onload =
+                function(){
+
+                    resolve();
+
+                };
+
+            script.onerror =
+                function(){
+
+                    reject(
+                        new Error(
+                            "Unable to load Google Login."
+                        )
+                    );
+
+                };
+
+            document.head.appendChild(
+                script
+            );
+
+        }
+    );
+
+    googleReady = true;
+
+    return true;
+}
+
+
+async function googleLogin(){
+
+    const googleButton =
+        document.querySelector(
+            ".google-btn"
+        );
+
+    try{
+
+        googleButton.disabled = true;
+        googleButton.textContent =
+            "Connecting to Google...";
+
+        await loadGoogleIdentityServices();
+
+        window.google.accounts.id.initialize({
+
+            client_id:
+                window.STUDYAI_GOOGLE_CLIENT_ID,
+
+            callback:
+                handleGoogleCredential,
+
+            auto_select:
+                false,
+
+            cancel_on_tap_outside:
+                false
+
+        });
+
+        window.google.accounts.id.prompt();
+
+    }
+    catch(error){
+
+        console.error(
+            "Google Login Error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+                "Unable to start Google Login.",
+            "error"
+        );
+
+        googleButton.disabled = false;
+        googleButton.innerHTML =
+            '<span class="google-icon">G</span> Continue with Google';
+
+    }
+}
+
+
+async function handleGoogleCredential(
+    googleResponse
+){
+
+    const googleButton =
+        document.querySelector(
+            ".google-btn"
+        );
+
+    try{
+
+        showMessage(
+            "Verifying your Google account...",
+            "success"
+        );
+
+        const response =
+            await fetch(
+                `${API_URL}/google`,
+                {
+
+                    method:
+                        "POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            credential:
+                                googleResponse.credential
+
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Google Login failed."
+            );
+
+        }
+
+        if(
+            !data.token ||
+            !data.user
+        ){
+
+            throw new Error(
+                "Invalid Google Login response."
+            );
+
+        }
+
+        localStorage.setItem(
+            "studyAI_token",
+            data.token
+        );
+
+        localStorage.setItem(
+            "studyAI_user",
+            JSON.stringify({
+
+                id:
+                    data.user.id,
+
+                name:
+                    data.user.name,
+
+                email:
+                    data.user.email,
+
+                role:
+                    data.user.role ||
+                    "client"
+
+            })
+        );
+
+        localStorage.setItem(
+            "studyAI_loggedIn",
+            "true"
+        );
+
+        showMessage(
+            "Google Login successful! 🎉",
+            "success"
+        );
+
+        setTimeout(
+            function(){
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            500
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Google authentication error:",
+            error
+        );
+
+        showMessage(
+            error.message ||
+            "Unable to login with Google.",
+            "error"
+        );
+
+    }
+    finally{
+
+        googleButton.disabled =
+            false;
+
+        googleButton.innerHTML =
+            '<span class="google-icon">G</span> Continue with Google';
+
+    }
+}
+</script>
+
+
+</body>
+
+</html>

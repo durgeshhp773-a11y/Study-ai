@@ -1,0 +1,1 @@
+"""StudyAI API route blueprints."""

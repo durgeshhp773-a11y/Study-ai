@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>StudyAI - AI Planner</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+body{background:#f5f7fb;color:#171a2b;min-height:100vh}
+.sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;background:#fff;border-right:1px solid #e8eaf0;padding:25px 18px;z-index:100}
+.logo{display:flex;align-items:center;gap:12px;padding:5px 10px 30px}
+.logo-icon{width:48px;height:48px;border-radius:12px;overflow:hidden;flex-shrink:0}
+.logo-icon img{width:100%;height:100%;object-fit:cover;display:block}
+.logo-text{font-size:21px;font-weight:750}.logo-text span{color:#6366f1}
+.side-title{font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;padding:0 12px;margin-bottom:12px}
+.side-menu{display:flex;flex-direction:column;gap:6px}
+.side-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;color:#6b7280;text-decoration:none;font-size:14px;transition:.2s}
+.side-item:hover,.side-item.active{background:#eeedff;color:#5b5ce2}.side-item.active{font-weight:600}.side-icon{width:20px;text-align:center;font-size:17px}
+.main{margin-left:240px;min-height:100vh}.topbar{height:76px;background:#fff;border-bottom:1px solid #e8eaf0;display:flex;align-items:center;justify-content:flex-end;padding:0 32px}
+.top-nav{display:flex;align-items:center;gap:6px}.top-nav a{text-decoration:none;color:#606575;font-size:13px;padding:10px 12px;border-radius:9px;white-space:nowrap}
+.top-nav a:hover,.top-nav a.active{color:#5b5ce2;background:#eeedff}.notification-btn{width:42px;height:42px;border-radius:10px;background:#f6f7fa;display:flex!important;align-items:center;justify-content:center;margin-left:8px;font-size:18px!important}
+.profile{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff!important;display:flex!important;align-items:center;justify-content:center;margin-left:8px;padding:0!important;font-size:13px!important;font-weight:600}
+.content{padding:35px 42px;max-width:1400px;margin:auto}.page-header{margin-bottom:25px}.page-header h1{font-size:29px;margin-bottom:7px}.page-header p{color:#7b8190;font-size:14px}
+.card{background:#fff;border:1px solid #e7e9ef;border-radius:18px;padding:25px;margin-bottom:20px}
+.section-title{font-size:17px;font-weight:700;margin-bottom:6px}.section-subtitle{color:#8a8f9d;font-size:12px;margin-bottom:22px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.form-group label{display:block;font-size:12px;font-weight:600;margin-bottom:8px}
+.form-group input,.form-group select{width:100%;padding:12px;border:1px solid #dfe2ea;border-radius:9px;outline:none;font-size:13px;background:#fff}
+.form-group input:focus,.form-group select:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.08)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.generate-btn,.secondary-btn,.danger-btn{border:0;padding:12px 18px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;transition:.2s}
+.generate-btn{background:#6366f1;color:#fff}.generate-btn:hover{background:#4f46e5}.generate-btn:disabled{opacity:.6;cursor:not-allowed}
+.secondary-btn{background:#eeedff;color:#5b5ce2}.secondary-btn:hover{background:#e2e1ff}
+.danger-btn{background:#fff1f2;color:#dc2626}.danger-btn:hover{background:#fee2e2}
+.status{margin-top:18px;padding:12px 14px;border-radius:10px;font-size:11px;display:none}.status.show{display:block}.status.info{background:#f6f6ff;color:#5b5ce2}.status.success{background:#ecfdf3;color:#15803d;border:1px solid #bbf7d0}.status.error{background:#fff1f2;color:#dc2626;border:1px solid #fecdd3}
+.history-wrap{display:none}.history-wrap.show{display:block}.history-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.history-title{font-size:14px;font-weight:700}.history-actions{display:flex;gap:8px}.small-btn{border:1px solid #e5e7eb;background:#fff;color:#6b7280;border-radius:8px;padding:7px 10px;font-size:10px;cursor:pointer}.small-btn:hover{background:#f7f7fb}
+.history-tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px}.history-tab{min-width:145px;max-width:220px;border:1px solid #e5e7eb;background:#fff;border-radius:10px;padding:9px 10px;text-align:left;cursor:pointer;position:relative}
+.history-tab.active{border-color:#6366f1;background:#eeedff}.history-tab strong{display:block;font-size:11px;color:#252735;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:18px}
+.history-tab small{display:block;color:#9297a4;font-size:9px;margin-top:3px}.history-tab .tab-delete{position:absolute;right:6px;top:5px;border:0;background:transparent;color:#9ca3af;font-size:13px;cursor:pointer}.history-tab .tab-delete:hover{color:#dc2626}
+.empty{background:#fff;border:1px solid #e7e9ef;border-radius:18px;min-height:300px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px}
+.empty-icon{width:70px;height:70px;border-radius:20px;background:#eeeeff;display:flex;justify-content:center;align-items:center;font-size:31px;margin-bottom:17px}.empty h2{font-size:18px;margin-bottom:8px}.empty p{color:#8a8f9d;font-size:13px;line-height:1.6;max-width:500px}
+.result{display:none}.result.show{display:block}.result-header{background:#fff;border:1px solid #e7e9ef;border-radius:18px;padding:22px;margin-bottom:18px}.result-header h2{font-size:18px;margin-bottom:6px}.result-header p{color:#8a8f9d;font-size:12px;line-height:1.5}
+.day-card{background:#fff;border:1px solid #e7e9ef;border-radius:14px;padding:15px;margin-bottom:12px}.day-title{font-size:13px;font-weight:700;color:#5b5ce2;margin-bottom:10px}
+.item{border:1px solid #eef0f4;border-radius:12px;padding:14px;margin-top:8px}.time{color:#6366f1;font-size:11px;font-weight:700}.item h3{font-size:14px;margin:6px 0}.item p{color:#8a8f9d;font-size:11px;line-height:1.5}
+.badge{display:inline-block;padding:6px 10px;border-radius:20px;font-size:10px;margin-top:8px}.high{background:#fee2e2;color:#dc2626}.medium{background:#fff7e6;color:#d97706}.low{background:#e9f9ef;color:#16a34a}
+.overlay{position:fixed;inset:0;background:rgba(15,18,35,.45);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}.overlay.show{display:flex}
+.modal{width:390px;max-width:100%;background:#fff;border-radius:20px;padding:30px;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.close{position:absolute;right:15px;top:14px;border:0;background:#f5f6f8;border-radius:8px;width:32px;height:32px;font-size:20px;cursor:pointer}
+.avatar{width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;font-weight:700}
+.modal h2{font-size:20px;margin-bottom:6px}.email{color:#9297a4;font-size:12px;margin-bottom:22px}
+.login,.register{display:block;width:100%;padding:12px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:600;margin-top:10px}.login{background:#6366f1;color:#fff}.register{background:#eeedff;color:#5b5ce2}
+.menu{display:flex;flex-direction:column;gap:9px}.menu button{border:0;background:#f8f8fc;border-radius:12px;padding:13px;cursor:pointer;text-align:left}.menu button:hover{background:#eeedff}
+@media(max-width:950px){.form-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.sidebar{width:70px;padding:20px 10px}.logo{justify-content:center;padding:5px 0 30px}.logo-text,.side-title,.side-item span:not(.side-icon){display:none}.side-item{justify-content:center}.main{margin-left:70px}.topbar{overflow-x:auto;justify-content:flex-start;padding:0 15px}}
+@media(max-width:600px){.content{padding:22px 15px}.page-header h1{font-size:24px}.card{padding:18px}.history-tab{min-width:130px}}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo"><div class="logo-icon"><img src="logo.jpeg" alt="StudyAI Logo"></div><div class="logo-text">Study<span>AI</span></div></div>
+  <div class="side-title">Workspace</div>
+  <nav class="side-menu">
+    <a href="index.html" class="side-item"><span class="side-icon">⌂</span><span>Home</span></a>
+    <a href="dashboard.html" class="side-item"><span class="side-icon">▦</span><span>Dashboard</span></a>
+    <a href="aiplan.html" class="side-item active"><span class="side-icon">✦</span><span>AI Planner</span></a>
+    <a href="aiquestG.html" class="side-item"><span class="side-icon">?</span><span>AI Question Generator</span></a>
+    <a href="progress.html" class="side-item"><span class="side-icon">◔</span><span>Progress Tracker</span></a>
+  </nav>
+</aside>
+
+<main class="main">
+<header class="topbar"><nav class="top-nav">
+<a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="aiplan.html" class="active">AI Planner</a><a href="aiquestG.html">AI Question Generator</a><a href="progress.html">Progress Tracker</a><a href="notifications.html" class="notification-btn">🔔</a><a href="#" class="profile" id="profileBtn">U</a>
+</nav></header>
+
+<section class="content">
+<div class="page-header"><h1>AI Study Planner 🤖</h1><p>Create a personalized study schedule based on your study material, goals, available time and preferences.</p></div>
+
+<div class="card">
+  <div class="section-title">Create Your Study Plan</div>
+  <div class="section-subtitle">Choose the PDF and customize your plan just like the AI Question Generator.</div>
+
+  <div class="form-grid">
+    <div class="form-group"><label>Study Material / PDF</label><select id="material"><option value="">Loading materials...</option></select></div>
+    <div class="form-group"><label>Study Goal</label><input id="goal" placeholder="e.g. Prepare for semester exams" autocomplete="off"></div>
+    <div class="form-group"><label>Daily Study Time</label><select id="studyTime"><option value="">Select time</option><option value="1">1 Hour</option><option value="2">2 Hours</option><option value="3">3 Hours</option><option value="4">4 Hours</option><option value="5">5+ Hours</option></select></div>
+    <div class="form-group"><label>Study Preference</label><select id="preference"><option value="">Select preference</option><option value="Balanced">Balanced</option><option value="Weak Topics">Focus on Weak Topics</option><option value="Fast Revision">Fast Revision</option><option value="Deep Study">Deep Study</option></select></div>
+  </div>
+
+  <div class="actions">
+    <button class="generate-btn" id="generateBtn" type="button">✦ Generate AI Study Plan</button>
+    <button class="secondary-btn" id="newPlanBtn" type="button">＋ New Plan</button>
+    <button class="danger-btn" id="removeAllBtn" type="button">🗑 Remove All Plans</button>
+  </div>
+  <div id="status" class="status"></div>
+</div>
+
+<div class="card history-wrap" id="historyWrap">
+  <div class="history-head">
+    <div class="history-title">Previous Study Plans</div>
+    <div class="history-actions"><button class="small-btn" id="removeAllTopBtn" type="button">Remove All</button></div>
+  </div>
+  <div class="history-tabs" id="historyTabs"></div>
+</div>
+
+<div class="empty" id="emptyState">
+  <div class="empty-icon">🤖</div>
+  <h2>Your AI planner is ready</h2>
+  <p>Select a study material and enter your goal, daily study time and preference. Your personalized schedule will appear here and remain available after refresh.</p>
+</div>
+
+<div class="result" id="plan">
+  <div class="result-header"><h2>✦ Your Personalized Study Plan</h2><p id="planDescription">AI-generated schedule.</p></div>
+  <div id="schedule"></div>
+</div>
+</section>
+</main>
+
+<div class="overlay" id="profileOverlay"><div class="modal">
+<button class="close" id="closeProfile">×</button>
+<div class="avatar" id="profileAvatar">U</div><h2 id="profileName">Welcome to StudyAI</h2><p class="email" id="profileEmail">Login or create an account to continue.</p>
+<div id="loggedOutMenu"><a href="login.html" class="login">Login</a><a href="register.html" class="register">Create Account</a></div>
+<div id="loggedInMenu" class="menu" style="display:none"><button onclick="openProfile()">👤 &nbsp; My Profile</button><button onclick="openHelp()">❓ &nbsp; Help & Support</button><button onclick="logoutUser()">↪ &nbsp; Logout</button></div>
+</div></div>
+
+<script>
+const API_URL="http://127.0.0.1:5000";
+const generateBtn=document.getElementById("generateBtn"),material=document.getElementById("material"),goal=document.getElementById("goal"),studyTime=document.getElementById("studyTime"),preference=document.getElementById("preference"),status=document.getElementById("status"),emptyState=document.getElementById("emptyState"),plan=document.getElementById("plan"),schedule=document.getElementById("schedule"),planDescription=document.getElementById("planDescription");
+const newPlanBtn=document.getElementById("newPlanBtn"),removeAllBtn=document.getElementById("removeAllBtn"),removeAllTopBtn=document.getElementById("removeAllTopBtn"),historyWrap=document.getElementById("historyWrap"),historyTabs=document.getElementById("historyTabs");
+const profileBtn=document.getElementById("profileBtn"),profileOverlay=document.getElementById("profileOverlay"),closeProfile=document.getElementById("closeProfile"),profileAvatar=document.getElementById("profileAvatar"),profileName=document.getElementById("profileName"),profileEmail=document.getElementById("profileEmail"),loggedInMenu=document.getElementById("loggedInMenu"),loggedOutMenu=document.getElementById("loggedOutMenu");
+
+function getCurrentUser(){try{const x=localStorage.getItem("studyAI_user");return x?JSON.parse(x):null}catch{return null}}
+function isLoggedIn(){const u=getCurrentUser();return !!(localStorage.getItem("studyAI_token")&&u&&u.email)}
+function initials(name){if(!name)return"U";const p=name.trim().split(/\s+/);return(p.length===1?p[0].slice(0,2):p[0][0]+p[p.length-1][0]).toUpperCase()}
+function updateProfile(){const u=getCurrentUser();if(!isLoggedIn()){profileBtn.textContent="U";profileAvatar.textContent="U";profileName.textContent="Welcome to StudyAI";profileEmail.textContent="Login or create an account to continue.";loggedOutMenu.style.display="block";loggedInMenu.style.display="none";return}const i=initials(u.name||"User");profileBtn.textContent=i;profileAvatar.textContent=i;profileName.textContent=u.name||"User";profileEmail.textContent=u.email||"";loggedOutMenu.style.display="none";loggedInMenu.style.display="flex"}
+profileBtn.addEventListener("click",e=>{e.preventDefault();updateProfile();profileOverlay.classList.add("show")});
+closeProfile.addEventListener("click",()=>profileOverlay.classList.remove("show"));
+profileOverlay.addEventListener("click",e=>{if(e.target===profileOverlay)profileOverlay.classList.remove("show")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")profileOverlay.classList.remove("show")});
+function openProfile(){window.location.href="profile.html"} function openHelp(){window.location.href="help.html"}
+function logoutUser(){if(!confirm("Are you sure you want to logout?"))return;localStorage.removeItem("studyAI_token");localStorage.removeItem("studyAI_user");localStorage.removeItem("studyAI_loggedIn");window.location.href="index.html"}
+
+function storageKey(){const u=getCurrentUser();return u?.email?"studyAI_plans_"+u.email.toLowerCase():"studyAI_plans_guest"}
+function loadHistory(){try{const raw=localStorage.getItem(storageKey());const list=raw?JSON.parse(raw):[];return Array.isArray(list)?list:[]}catch{return[]}}
+function saveHistory(list){localStorage.setItem(storageKey(),JSON.stringify(list))}
+function formatDate(iso){try{return new Date(iso).toLocaleString([], {day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})}catch{return""}}
+function showStatus(t,c="info"){status.textContent=t;status.className="status show "+c}
+
+function renderTabs(history,activeId){
+  historyTabs.innerHTML="";
+  historyWrap.classList.toggle("show",history.length>0);
+  history.forEach(item=>{
+    const tab=document.createElement("div");tab.className="history-tab"+(String(item.id)===String(activeId)?" active":"");
+    const title=item.goal||"Study Plan";
+    tab.innerHTML=`<strong>${escapeHTML(title)}</strong><small>${escapeHTML(item.materialName||"PDF")} • ${formatDate(item.createdAt)}</small><button class="tab-delete" type="button" title="Delete plan">×</button>`;
+    tab.addEventListener("click",e=>{if(e.target.classList.contains("tab-delete"))return;openHistoryItem(item.id)});
+    tab.querySelector(".tab-delete").addEventListener("click",e=>{e.stopPropagation();deletePlan(item.id)});
+    historyTabs.appendChild(tab);
+  });
+}
+
+function renderPlan(data){
+  const obj=data.plan||data.result||data.data||data;
+  const pd=obj.plan_data||obj;
+  const days=Array.isArray(pd.days)?pd.days:[];
+  if(!days.length)throw new Error("No study days received from server.");
+  emptyState.style.display="none";plan.classList.add("show");
+  planDescription.textContent=pd.summary||obj.message||"Personalized AI study plan";
+  schedule.innerHTML="";
+  days.forEach((day,di)=>{
+    const dayCard=document.createElement("div");dayCard.className="day-card";
+    dayCard.innerHTML=`<div class="day-title">${escapeHTML(day.day||("Day "+(di+1)))}</div>`;
+    const sessions=Array.isArray(day.sessions)?day.sessions:[];
+    sessions.forEach(s=>{
+      const x=document.createElement("div");x.className="item";
+      const p=String(s.priority||"medium").toLowerCase();
+      const duration=s.duration_minutes?` • ${Number(s.duration_minutes)} min`:"";
+      x.innerHTML=`<div class="time">${escapeHTML(s.time||s.start_time||"Study Session")}</div><h3>${escapeHTML(s.subject||s.topic||s.title||"Study")}</h3><p>${escapeHTML(s.description||s.task||s.activity||"Focus on this session.")}${duration}</p><span class="badge ${p==="high"?"high":p==="low"?"low":"medium"}">${escapeHTML(p.toUpperCase())}</span>`;
+      dayCard.appendChild(x);
+    });
+    schedule.appendChild(dayCard);
+  });
+}
+
+function openHistoryItem(id){
+  const item=loadHistory().find(x=>String(x.id)===String(id));if(!item)return;
+  goal.value=item.goal||"";studyTime.value=String(item.hours||"");preference.value=item.preference||"";
+  if(item.materialId)material.value=String(item.materialId);
+  renderPlan(item.plan);
+  renderTabs(loadHistory(),item.id);
+  showStatus("✓ Previous study plan loaded.","success");
+}
+
+function deletePlan(id){
+  if(!confirm("Delete this study plan?"))return;
+  const remaining=loadHistory().filter(x=>String(x.id)!==String(id));saveHistory(remaining);
+  if(remaining.length){openHistoryItem(remaining[0].id)}else{historyTabs.innerHTML="";historyWrap.classList.remove("show");plan.classList.remove("show");emptyState.style.display="flex";schedule.innerHTML="";goal.value="";studyTime.value="";preference.value="";showStatus("All study plans have been removed.","success")}
+}
+
+function removeAllPlans(){
+  const h=loadHistory();if(!h.length){showStatus("No saved study plans to remove.","info");return}
+  if(!confirm("Remove ALL saved study plans? This cannot be undone."))return;
+  localStorage.removeItem(storageKey());historyWrap.classList.remove("show");historyTabs.innerHTML="";plan.classList.remove("show");emptyState.style.display="flex";schedule.innerHTML="";showStatus("All saved study plans removed.","success");
+}
+removeAllBtn.addEventListener("click",removeAllPlans);removeAllTopBtn.addEventListener("click",removeAllPlans);
+
+newPlanBtn.addEventListener("click",()=>{
+  goal.value="";studyTime.value="";preference.value="";
+  material.value="";
+  plan.classList.remove("show");emptyState.style.display="flex";schedule.innerHTML="";
+  showStatus("Create a new plan using the options above.","info");
+  const h=loadHistory();renderTabs(h,h[0]?.id);
+});
+
+async function loadMaterials(){
+  const u=getCurrentUser();if(!u?.email){material.innerHTML='<option value="">Login to load materials</option>';showStatus("🔐 Login first to use your study materials.","error");return}
+  try{
+    const r=await fetch(API_URL+"/api/materials?user_email="+encodeURIComponent(u.email));const d=await r.json();if(!r.ok)throw new Error(d.message||"Could not load materials");
+    const list=Array.isArray(d.materials)?d.materials:[];
+    material.innerHTML='<option value="">Select study material</option>';
+    list.forEach(m=>{const o=document.createElement("option");o.value=m.id??m.material_id;o.textContent=m.title||m.name||m.filename||("Material "+o.value);material.appendChild(o)});
+    if(!list.length)material.innerHTML='<option value="">No study material uploaded</option>';
+  }catch(e){material.innerHTML='<option value="">Unable to load materials</option>';showStatus("📄 "+e.message,"error")}
+}
+
+generateBtn.addEventListener("click",async()=>{
+  if(!isLoggedIn()){updateProfile();profileOverlay.classList.add("show");return}
+  const u=getCurrentUser();
+  if(!material.value){alert("Please select a study material.");return}
+  if(!goal.value.trim()){alert("Please enter your study goal.");goal.focus();return}
+  if(!studyTime.value){alert("Please select your daily study time.");return}
+  if(!preference.value){alert("Please select your study preference.");return}
+  generateBtn.disabled=true;generateBtn.textContent="⏳ Generating AI Plan...";showStatus("🤖 StudyAI is creating your personalized plan...");
+  try{
+    const r=await fetch(API_URL+"/api/study-plans/generate",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({user_email:u.email,goal:goal.value.trim(),hours_per_day:Number(studyTime.value),preference:preference.value,material_id:Number(material.value)})});
+    const d=await r.json();if(!r.ok)throw new Error(d.message||d.error||"Unable to generate study plan.");
+    renderPlan(d);
+    const obj=d.plan||d.result||d.data||d;const pd=obj.plan_data||obj;
+    const materialName=material.options[material.selectedIndex]?.textContent||"PDF";
+    const history=loadHistory();
+    const item={id:Date.now().toString(),goal:goal.value.trim(),hours:Number(studyTime.value),preference:preference.value,materialId:Number(material.value),materialName,summary:pd.summary||"",createdAt:new Date().toISOString(),plan:d};
+    history.unshift(item);saveHistory(history);renderTabs(history,item.id);
+    showStatus("✓ Study plan generated successfully.","success");
+  }catch(e){showStatus("✕ "+e.message,"error")}
+  finally{generateBtn.disabled=false;generateBtn.textContent="✦ Generate AI Study Plan"}
+});
+
+function escapeHTML(x){return String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+
+async function init(){
+  updateProfile();
+  await loadMaterials();
+  const h=loadHistory();
+  if(h.length){openHistoryItem(h[0].id)}else{emptyState.style.display="flex";plan.classList.remove("show");renderTabs([],null)}
+}
+init();
+</script>
+</body>
+</html>
